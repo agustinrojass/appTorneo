@@ -4,7 +4,7 @@ appTorneo es un proyecto de software que gestiona una liga de fútbol.
 
 ### Diagrama de clases
 
-[!Image text](https://github.com/agustinrojass/appTorneo/blob/main/src/Diagrama%20de%20clases.png)
+![Image text](https://github.com/agustinrojass/appTorneo/blob/main/src/Diagrama%20de%20clases.png)
 
 ## Autores
 
@@ -22,7 +22,7 @@ appTorneo is a software project that manages a football league.
 
 ### Class diagram
 
-[!Image text](https://github.com/agustinrojass/appTorneo/blob/main/src/Diagrama%20de%20clases.png)
+![Image text](https://github.com/agustinrojass/appTorneo/blob/main/src/Diagrama%20de%20clases.png)
 
 ## Authors
 
