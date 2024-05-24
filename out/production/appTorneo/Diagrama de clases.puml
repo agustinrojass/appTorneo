@@ -1,0 +1,64 @@
+@startuml
+Torneo -- Equipo
+Torneo -- Fecha
+Fecha -- PartidoFutbol
+PartidoFutbol -- Equipo
+Equipo --- Jugador
+Equipo --- Tecnico
+class Torneo {
+    - nombre : String
+    - fechas : HashMap<Integer, Fecha> //la clave es el numero de fecha
+    - tabla : HashMap<String, Equipo> //ordenado por puntos
+    - goleadores : HashMap<String, Jugador>
+    - primero : Equipo
+    - goleador : Jugador
+}
+class Fecha {
+    - numeroFecha : int
+    - partidos : ArrayList<PartidoFutbol>
+    + agregarPartido(local : Equipo, visitante : Equipo) : void
+    + sacarPartido(local : Equipo, visitante : Equipo) : void
+    - devolverIndicePartido(local : Equipo, visitante : Equipo) : int
+}
+abstract class Partido {
+    - local : Equipo
+    - visitante : Equipo
+}
+class PartidoFutbol extends Partido {
+    - local : Equipo
+    - visitante : Equipo
+    - golesL : int
+    - golesV : int
+    + actualizarResultado(golesLAux : int, golesVAux : int) : void
+    + calcularPuntos() : void
+}
+class Equipo {
+    - nombre : String
+    - tecnico : Tecnico
+    - jugadores : HashMap<Integer, Jugador>
+    - puntos : int
+    - partidosJugados : int
+    - partidosGanados : int
+    - partidosEmpatados : int
+    - partidosPerdidos : int
+    - diferenciaGoles : int
+    - golesAFavor : int
+    - golesEnContra : int
+    + ganarPartido(golesAFavorAux : int, golesEnContraAux : int) : void
+    + empatarPartido(golesAFavorAux : int, golesEnContraAux : int) : void
+    + perderPartido(golesAFavorAux : int, golesEnContraAux : int) : void
+    + actualizarGoles(golesAFavorAux : int, golesEnContraAux : int) : void
+}
+abstract class Persona {
+    - nombre : String
+    - edad : int //trabajar la edad a partir de la fecha de nacimiento con Date
+}
+class Jugador extends Persona {
+    - posicion : String
+    - numero : int
+    - goles : int
+}
+class Tecnico extends Persona {
+    - formacionFavorita : String
+}
+@enduml
