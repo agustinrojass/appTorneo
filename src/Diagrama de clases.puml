@@ -1,0 +1,49 @@
+@startuml
+Torneo -- Equipo
+Torneo -- Fecha
+Fecha -- Partido
+Partido -- Equipo
+Equipo --- Jugador
+Equipo --- Tecnico
+class Torneo {
+    - nombre : String
+    - fechas : HashMap<Integer, Fecha> //la clave es el numero de fecha
+    - tabla : HashMap<String, Equipo> //ordenado por puntos
+}
+class Fecha {
+    - numeroFecha : int
+    - partidos : ArrayList<Partido>
+}
+class Partido {
+    - local : Equipo
+    - visitante : Equipo
+    - golesL : int
+    - golesV : int
+    + calcularPuntos() : void //asigna los puntos y partidos
+}
+class Equipo {
+    - nombre : String
+    - tecnico : Tecnico
+    - jugadores : HashMap<Integer, Jugador> //la clave es el numero del jugador
+    - puntos : int
+    - partidosJugados : int
+    - partidosGanados : int
+    - partidosEmpatados : int
+    - partidosPerdidos : int
+    - diferenciaGoles : int
+    - golesAFavor : int
+    - golesEnContra : int
+}
+abstract class Persona {
+    - nombre : String
+    - edad : int
+}
+class Jugador extends Persona {
+    - posicion : String
+    - numero : int
+    - goles : int
+}
+class Tecnico extends Persona {
+    - formacionFavorita : String
+}
+@enduml
