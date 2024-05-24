@@ -1,11 +1,9 @@
 package Clases;
-import java.util.Date;
 
 public class Persona {
     //Artibutos
     private String nombre;
-    private int edad;
-    //private Date nacimiento; //trabajar la edad a partir de la fecha de nacimiento
+    private int edad;//trabajar la edad a partir de la fecha de nacimiento con Date
     //Constructores
     public Persona() {
         setNombre("");
@@ -19,7 +17,7 @@ public class Persona {
     private void setNombre(String nombreAux) {
         this.nombre = nombreAux;
     }
-    private String getNombre() {
+    public String getNombre() {
         return nombre;
     }
     private void setEdad(int edadAux) {
