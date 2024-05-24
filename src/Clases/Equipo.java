@@ -19,14 +19,11 @@ public class Equipo {
         setNombre("");
         setTecnico(new Tecnico());
         setJugadores(new HashMap<>());
-
         setPuntos(0);
-
         setPartidosJugados(0);
         setPartidosGanados(0);
         setPartidosEmpatados(0);
         setPartidosPerdidos(0);
-
         setDiferenciaGoles(0);
         setGolesAFavor(0);
         setGolesEnContra(0);
@@ -35,90 +32,142 @@ public class Equipo {
         setNombre(nombreAux);
         setTecnico(new Tecnico());
         setJugadores(new HashMap<>());
-
         setPuntos(0);
-
         setPartidosJugados(0);
         setPartidosGanados(0);
         setPartidosEmpatados(0);
         setPartidosPerdidos(0);
-
         setDiferenciaGoles(0);
         setGolesAFavor(0);
         setGolesEnContra(0);
     }
     //Metodos
-    public void setNombre(String nombreAux) {
+    private void setNombre(String nombreAux) {
         this.nombre = nombreAux;
     }
     public String getNombre() {
         return nombre;
     }
 
-    public void setTecnico(Tecnico tecnicoAux) {
+    private void setTecnico(Tecnico tecnicoAux) {
         this.tecnico = tecnicoAux;
     }
-    public Tecnico getTecnico() {
+    private Tecnico getTecnico() {
         return tecnico;
     }
-    public void setJugadores(HashMap<Integer, Jugador> jugadoresAux) {
+    private void setJugadores(HashMap<Integer, Jugador> jugadoresAux) {
         this.jugadores = jugadoresAux;
     }
-    public HashMap<Integer, Jugador> getJugadores() {
+    private HashMap<Integer, Jugador> getJugadores() {
         return jugadores;
     }
 
-    public void setPuntos(int puntosAux) {
+    private void setPuntos(int puntosAux) {
         this.puntos = puntosAux;
     }
-    public int getPuntos() {
+    private int getPuntos() {
         return puntos;
     }
-    public void setPartidosJugados(int partidosJugadosAux) {
+    private void setPartidosJugados(int partidosJugadosAux) {
         this.partidosJugados = partidosJugadosAux;
     }
-    public int getPartidosJugados() {
+    private int getPartidosJugados() {
         return partidosJugados;
     }
-    public void setPartidosGanados(int partidosGanadosAux) {
+    private void setPartidosGanados(int partidosGanadosAux) {
         this.partidosGanados = partidosGanadosAux;
     }
-    public int getPartidosGanados() {
+    private int getPartidosGanados() {
         return partidosGanados;
     }
-    public void setPartidosEmpatados(int partidosEmpatadosAux) {
+    private void setPartidosEmpatados(int partidosEmpatadosAux) {
         this.partidosEmpatados = partidosEmpatadosAux;
     }
-    public int getPartidosEmpatados() {
+    private int getPartidosEmpatados() {
         return partidosEmpatados;
     }
-    public void setPartidosPerdidos(int partidosPerdidosAux) {
+    private void setPartidosPerdidos(int partidosPerdidosAux) {
         this.partidosPerdidos = partidosPerdidosAux;
     }
-    public int getPartidosPerdidos() {
+    private int getPartidosPerdidos() {
         return partidosPerdidos;
     }
-    public void setDiferenciaGoles(int diferenciaGolesAux) {
+    private void setDiferenciaGoles(int diferenciaGolesAux) {
         this.diferenciaGoles = diferenciaGolesAux;
     }
-    public int getDiferenciaGoles() {
+    private int getDiferenciaGoles() {
         return diferenciaGoles;
     }
-    public void setGolesAFavor(int golesAFavorAux) {
+    private void setGolesAFavor(int golesAFavorAux) {
         this.golesAFavor = golesAFavorAux;
     }
-    public int getGolesAFavor() {
+    private int getGolesAFavor() {
         return golesAFavor;
     }
-    public void setGolesEnContra(int golesEnContraAux) {
+    private void setGolesEnContra(int golesEnContraAux) {
         this.golesEnContra = golesEnContraAux;
     }
-    public int getGolesEnContra() {
+    private int getGolesEnContra() {
         return golesEnContra;
     }
-
+    public void ganarPartido(int golesAFavorAux, int golesEnContraAux) {
+        setPuntos(getPuntos() + 3);
+        setPartidosJugados(getPartidosJugados() + 1);
+        setPartidosGanados(getPartidosGanados() + 1);
+        actualizarGoles(golesAFavorAux, golesEnContraAux);
+    }
+    public void empatarPartido(int golesAFavorAux, int golesEnContraAux) {
+        setPuntos(getPuntos() + 1);
+        setPartidosJugados(getPartidosJugados() + 1);
+        setPartidosEmpatados(getPartidosEmpatados() + 1);
+        actualizarGoles(golesAFavorAux, golesEnContraAux);
+    }
+    public void perderPartido(int golesAFavorAux, int golesEnContraAux) {
+        setPartidosJugados(getPartidosJugados() + 1);
+        setPartidosPerdidos(getPartidosPerdidos() + 1);
+        actualizarGoles(golesAFavorAux, golesEnContraAux);
+    }
+    public void actualizarGoles(int golesAFavorAux, int golesEnContraAux) {
+        setGolesAFavor(getGolesAFavor() + golesAFavorAux);
+        setGolesEnContra(getGolesEnContra() + golesEnContraAux);
+        setDiferenciaGoles(getGolesAFavor() - getGolesEnContra());
+    }
     @Override
     public String toString() {
-        return String.format("%-20s" ,getNombre()) + ;
+        String s = String.format("%-25s", getNombre()) + " | " + String.format("%3s", getPuntos()) + " | " + String.format("%2s", getPartidosJugados()) +
+                " | " + String.format("%2s", getPartidosGanados()) + " | " + String.format("%2s", getPartidosEmpatados()) + " | " + String.format("%2s", getPartidosPerdidos()) +
+                " | " + String.format("%2s", getGolesAFavor()) + " | " + String.format("%2s", getGolesEnContra()) + " | ";
+        if(getDiferenciaGoles() > 0) {
+            s += String.format("%3s", "+" + getDiferenciaGoles());
+        }
+        else {
+            s += String.format("%3s", getDiferenciaGoles());
+        }
+        return s + " ";
+    }
+    public int compareTo(Object obj) {
+        int rta = 0;
+        if(obj != null) {
+            if(obj instanceof Equipo e) {
+                if(getPuntos() > e.getPuntos()) {
+                    rta = -1;
+                } else if (getPuntos() < e.getPuntos()) {
+                    rta = 1;
+                } else if (getPuntos() == e.getPuntos()) {
+                    if(getDiferenciaGoles() > e.getDiferenciaGoles()) {
+                        rta = -1;
+                    } else if (getDiferenciaGoles() < e.getDiferenciaGoles()) {
+                        rta = 1;
+                    } else if (getDiferenciaGoles() == e.getDiferenciaGoles()) {
+                        if(getGolesAFavor() > e.getGolesAFavor()) {
+                            rta = -1;
+                        } else if (getGolesAFavor() < e.getGolesAFavor()) {
+                            rta = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return rta;
     }
 }
