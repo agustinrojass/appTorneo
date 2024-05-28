@@ -40,18 +40,19 @@ public class Jugador extends Persona {
     @Override
     public String toString() {
         String pos = "";
-        if(getPosicion().equalsIgnoreCase("delantero")) {
+        if(getPosicion().equalsIgnoreCase("Attacker")) {
             pos = "[DEL] ";
         }
-        else if(getPosicion().equalsIgnoreCase("mediocampista")) {
+        else if(getPosicion().equalsIgnoreCase("Midfielder")) {
             pos = "[MED] ";
         }
-        else if(getPosicion().equalsIgnoreCase("defensor")) {
+        else if(getPosicion().equalsIgnoreCase("Defender")) {
             pos = "[DEF] ";
         }
-        else if(getPosicion().equalsIgnoreCase("arquero")) {
+        else if(getPosicion().equalsIgnoreCase("Goalkeeper")) {
             pos = "[ARQ] ";
         }
         return pos + String.format("%2s", getNumero()) + " - " + super.toString() + " - " + getGoles();
     }
 }
+
