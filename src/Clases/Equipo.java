@@ -3,6 +3,7 @@ import java.util.HashMap;
 
 public class Equipo {
     //Atributos
+    private int idEquipo;
     private String nombre;
     private Tecnico tecnico;
     private HashMap<Integer, Jugador> jugadores;
@@ -41,6 +42,20 @@ public class Equipo {
         setGolesAFavor(0);
         setGolesEnContra(0);
     }
+    public Equipo(String nombre, HashMap<Integer, Jugador> jugadores, int puntos, int partidosJugados, int partidosGanados, int partidosEmpatados, int partidosPerdidos, int diferenciaGoles, int golesAFavor, int golesEnContra, int idEquipo) {
+        this.nombre = nombre;
+        setTecnico(new Tecnico());
+        this.jugadores = jugadores;
+        this.puntos = puntos;
+        this.partidosJugados = partidosJugados;
+        this.partidosGanados = partidosGanados;
+        this.partidosEmpatados = partidosEmpatados;
+        this.partidosPerdidos = partidosPerdidos;
+        this.diferenciaGoles = diferenciaGoles;
+        this.golesAFavor = golesAFavor;
+        this.golesEnContra = golesEnContra;
+        this.idEquipo = idEquipo;
+    }
     //Metodos
     private void setNombre(String nombreAux) {
         this.nombre = nombreAux;
@@ -58,7 +73,7 @@ public class Equipo {
     private void setJugadores(HashMap<Integer, Jugador> jugadoresAux) {
         this.jugadores = jugadoresAux;
     }
-    private HashMap<Integer, Jugador> getJugadores() {
+    public HashMap<Integer, Jugador> getJugadores() {
         return jugadores;
     }
 
@@ -110,6 +125,10 @@ public class Equipo {
     private int getGolesEnContra() {
         return golesEnContra;
     }
+    public int getIdEquipo(){
+        return idEquipo;
+    }
+
     public void ganarPartido(int golesAFavorAux, int golesEnContraAux) {
         setPuntos(getPuntos() + 3);
         setPartidosJugados(getPartidosJugados() + 1);
