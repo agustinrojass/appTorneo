@@ -43,7 +43,7 @@ public class Torneo {
     private void setTabla(ArrayList<Equipo> tablaAux) {
         this.tabla = tablaAux;
     }
-    private ArrayList<Equipo> getTabla() {
+    public ArrayList<Equipo> getTabla() {
         return tabla;
     }
     private void setGoleadores(HashMap<String, Jugador> goleadoresAux) {
