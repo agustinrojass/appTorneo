@@ -7,7 +7,7 @@ public class Torneo {
     private String nombre;
     private HashMap<Integer, Fecha> fechas;
     private ArrayList<Equipo> tabla;
-    private HashMap<String, Jugador> goleadores;
+    private ArrayList<Jugador> goleadores;
     private Equipo primero;
     private Jugador goleador;
     //Constructores
@@ -15,7 +15,7 @@ public class Torneo {
         setNombre("");
         setFechas(new HashMap<>());
         setTabla(new ArrayList<>());
-        setGoleadores(new HashMap<>());
+        setGoleadores(new ArrayList<>());
         setPrimero(new Equipo());
         setGoleador(new Jugador());
     }
@@ -23,7 +23,7 @@ public class Torneo {
         setNombre(nombreAux);
         setFechas(new HashMap<>());
         setTabla(new ArrayList<>());
-        setGoleadores(new HashMap<>());
+        setGoleadores(new ArrayList<>());
         setPrimero(new Equipo());
         setGoleador(new Jugador());
     }
@@ -46,10 +46,10 @@ public class Torneo {
     public ArrayList<Equipo> getTabla() {
         return tabla;
     }
-    private void setGoleadores(HashMap<String, Jugador> goleadoresAux) {
+    private void setGoleadores(ArrayList<Jugador> goleadoresAux) {
         this.goleadores = goleadoresAux;
     }
-    private HashMap<String, Jugador> getGoleadores() {
+    private ArrayList<Jugador> getGoleadores() {
         return goleadores;
     }
     private void setPrimero(Equipo campeonAux) {
@@ -75,23 +75,26 @@ public class Torneo {
         }
     }
     private String devolverTabla() {
-        String s = "\u001B[30;100m" + " Pos | Equipo                    | Pts | PJ | PG | PE | PP | GF | GC | Dif " + "\u001B[0m\n";
-        getTabla().sort(Equipo::compareTo);//ordena la tabla (lista)
-        s += "\u001B[30;42m" + "   1 | " + getTabla().getFirst() + "\u001B[0m\n";
+        String s = "\u001B[30;100m" + " Pos | Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif | #ID    " + "\u001B[0m\n";
+        //getTabla().sort(Equipo::compareTo); //ordena la tabla (lista)
+        s += "\u001B[30;42m" + "   1 | " + getTabla().getFirst() + " | " + "\u001B[97;42m" + String.format("%7s", "[" + getTabla().getFirst().getIdEquipo() + "] ") + "\u001B[0m\n";
         for(int i = 1; i < getTabla().size(); i++) {
             if(i % 2 == 0) {
-                s += "\u001B[30;100m";
+                s += "\u001B[30;100m" + "  " + String.format("%2s", (i + 1)) + " | " + getTabla().get(i) + " | " + "\u001B[97;100m" + String.format("%7s", "[" + getTabla().get(i).getIdEquipo() + "] ") + "\u001B[0m\n";
             }
             else {
-                s += "\u001B[30;47m";
+                s += "\u001B[30;47m" + "  " + String.format("%2s", (i + 1)) + " | " + getTabla().get(i) + " | " + "\u001B[97;47m" + String.format("%7s", "[" + getTabla().get(i).getIdEquipo() + "] ") + "\u001B[0m\n";
             }
-            s += "  " + String.format("%2s", (i + 1)) + " | " + getTabla().get(i) + "\u001B[0m\n";
         }
         return s;
     }
+    private void calcularPrimero() {
+        setPrimero(getTabla().getFirst());
+    }
     @Override
     public String toString() {
-        return "\u001B[30;47m " + String.format("%-74s", getNombre()) + "\u001B[0m\n\u001B[30;100m " + String.format("%-74s", "Primero: " +
-                getPrimero().getNombre()) + "\u001B[0m\n\u001B[30;47m " + String.format("%-74s", "Goleador: " + getGoleador().getNombre()) + "\u001B[0m\n" + devolverTabla();
+        calcularPrimero();
+        return "\u001B[30;47m " + String.format("%-88s", getNombre()) + "\u001B[0m\n\u001B[30;100m " + String.format("%-88s", "Primero: " +
+                getPrimero().getNombre()) + "\u001B[0m\n\u001B[30;47m " + String.format("%-88s", "Goleador: " + getGoleador().getNombre()) + "\u001B[0m\n" + devolverTabla();
     }
 }
