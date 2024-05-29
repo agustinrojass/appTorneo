@@ -1,6 +1,7 @@
 package Clases;
+import java.io.Serializable;
 
-public class Persona {
+public class Persona implements Serializable {
     //Artibutos
     private String nombre;
     private int edad;//trabajar la edad a partir de la fecha de nacimiento con Date

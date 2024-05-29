@@ -1,9 +1,9 @@
 package Clases;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Equipo {
+public class Equipo implements Serializable {
     //Atributos
-    private int idEquipo;
     private String nombre;
     private Tecnico tecnico;
     private HashMap<Integer, Jugador> jugadores;
@@ -15,6 +15,7 @@ public class Equipo {
     private int diferenciaGoles;
     private int golesAFavor;
     private int golesEnContra;
+    private int idEquipo;
     //Construtores
     public Equipo() {
         setNombre("");
@@ -42,19 +43,19 @@ public class Equipo {
         setGolesAFavor(0);
         setGolesEnContra(0);
     }
-    public Equipo(String nombre, HashMap<Integer, Jugador> jugadores, int puntos, int partidosJugados, int partidosGanados, int partidosEmpatados, int partidosPerdidos, int diferenciaGoles, int golesAFavor, int golesEnContra, int idEquipo) {
-        this.nombre = nombre;
+    public Equipo(String nombreAux, HashMap<Integer, Jugador> jugadoresAux, int puntosAux, int partidosJugadosAux, int partidosGanadosAux, int partidosEmpatadosAux, int partidosPerdidosAux, int diferenciaGolesAux, int golesAFavorAux, int golesEnContraAux, int idEquipoAux) {
+        setNombre(nombreAux);
         setTecnico(new Tecnico());
-        this.jugadores = jugadores;
-        this.puntos = puntos;
-        this.partidosJugados = partidosJugados;
-        this.partidosGanados = partidosGanados;
-        this.partidosEmpatados = partidosEmpatados;
-        this.partidosPerdidos = partidosPerdidos;
-        this.diferenciaGoles = diferenciaGoles;
-        this.golesAFavor = golesAFavor;
-        this.golesEnContra = golesEnContra;
-        this.idEquipo = idEquipo;
+        setJugadores(jugadoresAux);
+        setPuntos(puntosAux);
+        setPartidosJugados(partidosJugadosAux);
+        setPartidosGanados(partidosGanadosAux);
+        setPartidosEmpatados(partidosEmpatadosAux);
+        setPartidosPerdidos(partidosPerdidosAux);
+        setDiferenciaGoles(diferenciaGolesAux);
+        setGolesAFavor(golesAFavorAux);
+        setGolesEnContra(golesEnContraAux);
+        setIdEquipo(idEquipoAux);
     }
     //Metodos
     private void setNombre(String nombreAux) {
@@ -63,7 +64,6 @@ public class Equipo {
     public String getNombre() {
         return nombre;
     }
-
     private void setTecnico(Tecnico tecnicoAux) {
         this.tecnico = tecnicoAux;
     }
@@ -76,7 +76,6 @@ public class Equipo {
     public HashMap<Integer, Jugador> getJugadores() {
         return jugadores;
     }
-
     private void setPuntos(int puntosAux) {
         this.puntos = puntosAux;
     }
@@ -125,10 +124,12 @@ public class Equipo {
     private int getGolesEnContra() {
         return golesEnContra;
     }
+    private void setIdEquipo(int idEquipoAux) {
+        this.idEquipo = idEquipoAux;
+    }
     public int getIdEquipo(){
         return idEquipo;
     }
-
     public void ganarPartido(int golesAFavorAux, int golesEnContraAux) {
         setPuntos(getPuntos() + 3);
         setPartidosJugados(getPartidosJugados() + 1);
@@ -153,7 +154,7 @@ public class Equipo {
     }
     @Override
     public String toString() {
-        String s = String.format("%-25s", getNombre()) + " | " + String.format("%3s", getPuntos()) + " | " + String.format("%2s", getPartidosJugados()) +
+        String s = String.format("%-30s", getNombre()) + " | " + String.format("%3s", getPuntos()) + " | " + String.format("%2s", getPartidosJugados()) +
                 " | " + String.format("%2s", getPartidosGanados()) + " | " + String.format("%2s", getPartidosEmpatados()) + " | " + String.format("%2s", getPartidosPerdidos()) +
                 " | " + String.format("%2s", getGolesAFavor()) + " | " + String.format("%2s", getGolesEnContra()) + " | ";
         if(getDiferenciaGoles() > 0) {
@@ -162,7 +163,7 @@ public class Equipo {
         else {
             s += String.format("%3s", getDiferenciaGoles());
         }
-        return s + " ";
+        return s;
     }
     public int compareTo(Object obj) {
         int rta = 0;
@@ -188,5 +189,8 @@ public class Equipo {
             }
         }
         return rta;
+    }
+    public String getNombreSinEspacios() {
+        return getNombre().replace(" ", "");
     }
 }

@@ -1,6 +1,7 @@
 package Clases;
+import java.io.Serializable;
 
-public class Jugador extends Persona {
+public class Jugador extends Persona implements Serializable {
     //Atributos
     private String posicion;
     private int numero;
@@ -17,6 +18,12 @@ public class Jugador extends Persona {
         setPosicion(posicionAux);
         setNumero(numeroAux);
         setGoles(0);
+    }
+    public Jugador(String nombreAux, int edadAux, String posicionAux, int numeroAux, int golesAux) {
+        super(nombreAux, edadAux);
+        setPosicion(posicionAux);
+        setNumero(numeroAux);
+        setGoles(golesAux);
     }
     //Metodos
     private void setPosicion(String posicionAux) {
@@ -52,7 +59,6 @@ public class Jugador extends Persona {
         else if(getPosicion().equalsIgnoreCase("Goalkeeper")) {
             pos = "[ARQ] ";
         }
-        return pos + String.format("%2s", getNumero()) + " - " + super.toString() + " - " + getGoles();
+        return pos + "| " + String.format("%3s", getNumero()) + " | " + super.toString() + " ";
     }
 }
-
