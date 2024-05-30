@@ -1,29 +1,20 @@
-package Clases;
+package clases;
 import java.io.Serializable;
 
 public class Jugador extends Persona implements Serializable {
     //Atributos
     private String posicion;
     private int numero;
-    private int goles;
     //Constructores
     public Jugador() {
         super();
         setPosicion("");
         setNumero(0);
-        setGoles(0);
     }
     public Jugador(String nombreAux, int edadAux, String posicionAux, int numeroAux) {
         super(nombreAux, edadAux);
         setPosicion(posicionAux);
         setNumero(numeroAux);
-        setGoles(0);
-    }
-    public Jugador(String nombreAux, int edadAux, String posicionAux, int numeroAux, int golesAux) {
-        super(nombreAux, edadAux);
-        setPosicion(posicionAux);
-        setNumero(numeroAux);
-        setGoles(golesAux);
     }
     //Metodos
     private void setPosicion(String posicionAux) {
@@ -37,12 +28,6 @@ public class Jugador extends Persona implements Serializable {
     }
     public int getNumero() {
         return numero;
-    }
-    private void setGoles(int golesAux) {
-        this.goles = golesAux;
-    }
-    private int getGoles() {
-        return goles;
     }
     @Override
     public String toString() {

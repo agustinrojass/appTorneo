@@ -1,12 +1,13 @@
-package Clases;
+package clases;
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Equipo implements Serializable {
     //Atributos
+    private int idEquipo;
     private String nombre;
     private Tecnico tecnico;
-    private HashMap<Integer, Jugador> jugadores;
+    private ArrayList<Jugador> jugadores;
     private int puntos;
     private int partidosJugados;
     private int partidosGanados;
@@ -15,12 +16,11 @@ public class Equipo implements Serializable {
     private int diferenciaGoles;
     private int golesAFavor;
     private int golesEnContra;
-    private int idEquipo;
     //Construtores
     public Equipo() {
         setNombre("");
         setTecnico(new Tecnico());
-        setJugadores(new HashMap<>());
+        setJugadores(new ArrayList<>());
         setPuntos(0);
         setPartidosJugados(0);
         setPartidosGanados(0);
@@ -30,20 +30,8 @@ public class Equipo implements Serializable {
         setGolesAFavor(0);
         setGolesEnContra(0);
     }
-    public Equipo(String nombreAux) {
-        setNombre(nombreAux);
-        setTecnico(new Tecnico());
-        setJugadores(new HashMap<>());
-        setPuntos(0);
-        setPartidosJugados(0);
-        setPartidosGanados(0);
-        setPartidosEmpatados(0);
-        setPartidosPerdidos(0);
-        setDiferenciaGoles(0);
-        setGolesAFavor(0);
-        setGolesEnContra(0);
-    }
-    public Equipo(String nombreAux, HashMap<Integer, Jugador> jugadoresAux, int puntosAux, int partidosJugadosAux, int partidosGanadosAux, int partidosEmpatadosAux, int partidosPerdidosAux, int diferenciaGolesAux, int golesAFavorAux, int golesEnContraAux, int idEquipoAux) {
+    public Equipo(int idEquipoAux, String nombreAux, ArrayList<Jugador> jugadoresAux, int puntosAux, int partidosJugadosAux, int partidosGanadosAux, int partidosEmpatadosAux, int partidosPerdidosAux, int diferenciaGolesAux, int golesAFavorAux, int golesEnContraAux) {
+        setIdEquipo(idEquipoAux);
         setNombre(nombreAux);
         setTecnico(new Tecnico());
         setJugadores(jugadoresAux);
@@ -55,9 +43,14 @@ public class Equipo implements Serializable {
         setDiferenciaGoles(diferenciaGolesAux);
         setGolesAFavor(golesAFavorAux);
         setGolesEnContra(golesEnContraAux);
-        setIdEquipo(idEquipoAux);
     }
     //Metodos
+    private void setIdEquipo(int idEquipoAux) {
+        this.idEquipo = idEquipoAux;
+    }
+    public int getIdEquipo() {
+        return idEquipo;
+    }
     private void setNombre(String nombreAux) {
         this.nombre = nombreAux;
     }
@@ -70,10 +63,10 @@ public class Equipo implements Serializable {
     private Tecnico getTecnico() {
         return tecnico;
     }
-    private void setJugadores(HashMap<Integer, Jugador> jugadoresAux) {
+    private void setJugadores(ArrayList<Jugador> jugadoresAux) {
         this.jugadores = jugadoresAux;
     }
-    public HashMap<Integer, Jugador> getJugadores() {
+    private ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
     private void setPuntos(int puntosAux) {
@@ -124,34 +117,28 @@ public class Equipo implements Serializable {
     private int getGolesEnContra() {
         return golesEnContra;
     }
-    private void setIdEquipo(int idEquipoAux) {
-        this.idEquipo = idEquipoAux;
-    }
-    public int getIdEquipo(){
-        return idEquipo;
-    }
     public void ganarPartido(int golesAFavorAux, int golesEnContraAux) {
         setPuntos(getPuntos() + 3);
         setPartidosJugados(getPartidosJugados() + 1);
         setPartidosGanados(getPartidosGanados() + 1);
         actualizarGoles(golesAFavorAux, golesEnContraAux);
-    }
+    } //probablemente no se use
     public void empatarPartido(int golesAFavorAux, int golesEnContraAux) {
         setPuntos(getPuntos() + 1);
         setPartidosJugados(getPartidosJugados() + 1);
         setPartidosEmpatados(getPartidosEmpatados() + 1);
         actualizarGoles(golesAFavorAux, golesEnContraAux);
-    }
+    } //probablemente no se use
     public void perderPartido(int golesAFavorAux, int golesEnContraAux) {
         setPartidosJugados(getPartidosJugados() + 1);
         setPartidosPerdidos(getPartidosPerdidos() + 1);
         actualizarGoles(golesAFavorAux, golesEnContraAux);
-    }
+    } //probablemente no se use
     public void actualizarGoles(int golesAFavorAux, int golesEnContraAux) {
         setGolesAFavor(getGolesAFavor() + golesAFavorAux);
         setGolesEnContra(getGolesEnContra() + golesEnContraAux);
         setDiferenciaGoles(getGolesAFavor() - getGolesEnContra());
-    }
+    } //probablemente no se use
     @Override
     public String toString() {
         String s = String.format("%-30s", getNombre()) + " | " + String.format("%3s", getPuntos()) + " | " + String.format("%2s", getPartidosJugados()) +
@@ -189,8 +176,5 @@ public class Equipo implements Serializable {
             }
         }
         return rta;
-    }
-    public String getNombreSinEspacios() {
-        return getNombre().replace(" ", "");
     }
 }

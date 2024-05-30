@@ -1,4 +1,4 @@
-package Clases;
+package clases;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;

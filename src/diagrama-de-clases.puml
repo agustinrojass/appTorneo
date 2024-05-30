@@ -11,7 +11,6 @@ class Torneo {
     - tabla : ArrayList<Equipo> //ordenado por puntos
     - goleadores : HashMap<String, Jugador>
     + agregarEquipo(equipo : Equipo) : void
-    + sacarEquipo(equipo : Equipo)) : void
     - devolverTabla() : String
 }
 class Fecha {
@@ -30,9 +29,10 @@ class PartidoFutbol {
     + calcularPuntos() : void
 }
 class Equipo {
+    - idEquipo : int
     - nombre : String
     - tecnico : Tecnico
-    - jugadores : HashMap<Integer, Jugador>
+    - jugadores : ArrayList<Jugador>
     - puntos : int
     - partidosJugados : int
     - partidosGanados : int
@@ -41,7 +41,6 @@ class Equipo {
     - diferenciaGoles : int
     - golesAFavor : int
     - golesEnContra : int
-    - idEquipo : int
     + ganarPartido(golesAFavorAux : int, golesEnContraAux : int) : void
     + empatarPartido(golesAFavorAux : int, golesEnContraAux : int) : void
     + perderPartido(golesAFavorAux : int, golesEnContraAux : int) : void
@@ -54,7 +53,6 @@ abstract class Persona {
 class Jugador extends Persona {
     - posicion : String
     - numero : int
-    - goles : int
 }
 class Tecnico extends Persona {
     - formacionFavorita : String

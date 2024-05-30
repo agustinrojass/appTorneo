@@ -1,23 +1,23 @@
-package Clases;
+package clases;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Torneo {
+public class Torneo implements Serializable {
     //Atributos
     private String nombre;
-    private HashMap<Integer, Fecha> fechas;
+    private ArrayList<Fecha> fechas;
     private ArrayList<Equipo> tabla;
     private ArrayList<Jugador> goleadores;
     //Constructores
     public Torneo() {
         setNombre("");
-        setFechas(new HashMap<>());
+        setFechas(new ArrayList<>());
         setTabla(new ArrayList<>());
         setGoleadores(new ArrayList<>());
     }
     public Torneo(String nombreAux) {
         setNombre(nombreAux);
-        setFechas(new HashMap<>());
+        setFechas(new ArrayList<>());
         setTabla(new ArrayList<>());
         setGoleadores(new ArrayList<>());
     }
@@ -25,13 +25,13 @@ public class Torneo {
     private void setNombre(String nombreAux) {
         this.nombre = nombreAux;
     }
-    private String getNombre() {
+    public String getNombre() {
         return nombre;
     }
-    private void setFechas(HashMap<Integer, Fecha> fechasAux) {
+    private void setFechas(ArrayList<Fecha> fechasAux) {
         this.fechas = fechasAux;
     }
-    private HashMap<Integer, Fecha> getFechas() {
+    private ArrayList<Fecha> getFechas() {
         return fechas;
     }
     private void setTabla(ArrayList<Equipo> tablaAux) {
@@ -49,13 +49,6 @@ public class Torneo {
     public void agregarEquipo(Equipo equipo) {
         getTabla().add(equipo);
     }
-    public void sacarEquipo(Equipo equipo) {
-        for(int i = 0; i < getTabla().size(); i++) {
-            if(getTabla().get(i).equals(equipo)) {
-                getTabla().remove(equipo); //ver si queda el indice colgado o se corren todos los siguientes 1 posicion para atras
-            }
-        }
-    }
     private String devolverTabla() {
         String s = "\u001B[30;100m" + " Pos | Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif | #ID    " + "\u001B[0m\n";
         //getTabla().sort(Equipo::compareTo); //ordena la tabla (lista)
@@ -72,8 +65,9 @@ public class Torneo {
     }
     @Override
     public String toString() {
-        return "\u001B[30;100m " + String.format("%-88s", getNombre()) +
+        String s = "\u001B[30;100m " + String.format("%-88s", getNombre()) +
                 "\u001B[0m\n\u001B[30;47m " + String.format("%-88s", "Goleador: " /*+ getGoleadores().getFirst().getNombre()*/) +
                 "\u001B[0m\n" + devolverTabla();
+        return s;
     }
 }
