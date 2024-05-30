@@ -8,24 +8,18 @@ public class Torneo {
     private HashMap<Integer, Fecha> fechas;
     private ArrayList<Equipo> tabla;
     private ArrayList<Jugador> goleadores;
-    private Equipo primero;
-    private Jugador goleador;
     //Constructores
     public Torneo() {
         setNombre("");
         setFechas(new HashMap<>());
         setTabla(new ArrayList<>());
         setGoleadores(new ArrayList<>());
-        setPrimero(new Equipo());
-        setGoleador(new Jugador());
     }
     public Torneo(String nombreAux) {
         setNombre(nombreAux);
         setFechas(new HashMap<>());
         setTabla(new ArrayList<>());
         setGoleadores(new ArrayList<>());
-        setPrimero(new Equipo());
-        setGoleador(new Jugador());
     }
     //Metodos
     private void setNombre(String nombreAux) {
@@ -52,18 +46,6 @@ public class Torneo {
     private ArrayList<Jugador> getGoleadores() {
         return goleadores;
     }
-    private void setPrimero(Equipo campeonAux) {
-        this.primero = campeonAux;
-    }
-    private Equipo getPrimero() {
-        return primero;
-    }
-    private void setGoleador(Jugador goleadorAux) {
-        this.goleador = goleadorAux;
-    }
-    private Jugador getGoleador() {
-        return goleador;
-    }
     public void agregarEquipo(Equipo equipo) {
         getTabla().add(equipo);
     }
@@ -88,13 +70,10 @@ public class Torneo {
         }
         return s;
     }
-    private void calcularPrimero() {
-        setPrimero(getTabla().getFirst());
-    }
     @Override
     public String toString() {
-        calcularPrimero();
-        return "\u001B[30;47m " + String.format("%-88s", getNombre()) + "\u001B[0m\n\u001B[30;100m " + String.format("%-88s", "Primero: " +
-                getPrimero().getNombre()) + "\u001B[0m\n\u001B[30;47m " + String.format("%-88s", "Goleador: " + getGoleador().getNombre()) + "\u001B[0m\n" + devolverTabla();
+        return "\u001B[30;100m " + String.format("%-88s", getNombre()) +
+                "\u001B[0m\n\u001B[30;47m " + String.format("%-88s", "Goleador: " /*+ getGoleadores().getFirst().getNombre()*/) +
+                "\u001B[0m\n" + devolverTabla();
     }
 }

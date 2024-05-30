@@ -3,6 +3,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,27 +40,6 @@ public class JsonUtiles {
         }
         return jsonResponse;
     }
-    //////////
-    public static JSONArray informacionToJsonTabla(String informacionAPI) {
-
-        JSONObject jsonObject;
-        JSONArray jsonResponse;
-        JSONObject jsonLiga;
-        JSONArray jsonTabla;
-        try {
-            assert informacionAPI != null;
-            jsonObject = new JSONObject(informacionAPI);
-            jsonResponse = jsonObject.getJSONArray("response");
-
-            jsonLiga = jsonResponse.getJSONObject(0).getJSONObject("league");
-            jsonTabla = jsonLiga.getJSONArray("standings").getJSONArray(0);
-
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-
-        return jsonTabla;
-    }
     ////////// metodos para el archivo de equipos
     public static ArrayList<Equipo> descargarEquipos(JSONArray jsonTabla) {
         ArrayList<Equipo> equipos = new ArrayList<>();
@@ -88,6 +69,7 @@ public class JsonUtiles {
         return equipos;
     }
     public static void actualizarTablaBin(JSONArray jsonTabla) throws IOException {
+
         ObjectOutputStream objectOutputStream = null;
         try {
             ArrayList<Equipo> equipos = descargarEquipos(jsonTabla);
@@ -661,5 +643,97 @@ public class JsonUtiles {
             }
         }
     }
+    ////////// menu2
+    public static JSONArray informacionApiToJsonArrayTabla2(String informacionApi) {
+        JSONObject jsonObj;
+        JSONArray jsA;
+        try {
+            assert informacionApi != null;
+            jsonObj = new JSONObject(informacionApi);
+            jsA = jsonObj.getJSONArray("response").getJSONObject(0).getJSONObject("league").getJSONArray("standings").getJSONArray(0);
+        }
+        catch(JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return jsA;
+    }
+    public static JSONArray informacionApiToJsonArrayJugadores2(String informacionAPI) {
+        JSONObject jsonObj;
+        JSONArray jsonResponse;
+        try {
+            assert informacionAPI != null;
+            jsonObj = new JSONObject(informacionAPI);
+            jsonResponse = jsonObj.getJSONArray("response");
+        }
+        catch(JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return jsonResponse;
+    }
+    public static void grabar(JSONArray array, String archivo) {
+        try {
+            FileWriter file = new FileWriter("json\\" + archivo +".json");
+            file.write(array.toString());
+            file.flush();
+            file.close();
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static void grabar(JSONObject jsonObject, String archivo) {
+        try {
+            FileWriter file = new FileWriter("json\\" + archivo + ".json");
+            file.write(jsonObject.toString());
+            file.flush();
+            file.close();
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static String leer(String archivo) {
+        String s = "";
+        try {
+            s = new String(Files.readAllBytes(Paths.get("json\\" + archivo + ".json")));
+        }
+        catch(IOException ex) {
+            ex.printStackTrace();
+        }
+        return s;
+    }
+    public static String devolverStringFormateado(String archivo) {
+        String s = " Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif \n";
+        try {
+            JSONArray array = new JSONArray(JsonUtiles.leer(archivo));
+            for(int i = 0; i < array.length(); i++) {
+                s += " " + String.format("%-30s", array.getJSONObject(i).getJSONObject("team").getString("name")) + " | ";
+                s += String.format("%3s", array.getJSONObject(i).getInt("points")) + " | ";
+                s += String.format("%2s", array.getJSONObject(i).getJSONObject("all").getInt("played")) + " | ";
+                s += String.format("%2s", array.getJSONObject(i).getJSONObject("all").getInt("win")) + " | ";
+                s += String.format("%2s", array.getJSONObject(i).getJSONObject("all").getInt("draw")) + " | ";
+                s += String.format("%2s", array.getJSONObject(i).getJSONObject("all").getInt("lose")) + " | ";
+                s += String.format("%2s", array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("for")) + " | ";
+                s += String.format("%2s", array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("against")) + " | ";
+                s += String.format("%3s", array.getJSONObject(i).getInt("goalsDiff")) + " \n";
+            }
+        }
+        catch(JSONException ex) {
+            ex.printStackTrace();
+        }
+        return s;
+    }
+    public static void grabarTabla() {
+        JSONArray jsonTabla = JsonUtiles.informacionApiToJsonArrayTabla2(ApiFootball.conectarApi("https://v3.football.api-sports.io/standings?league=128&season=2024", "01954488b25482303751a41d84b764a7"));
+        JsonUtiles.grabar(jsonTabla, "apiStandings");
+    }
+    public static void grabarJugadores(int id) {
+        JSONArray jsonEquipo = JsonUtiles.informacionApiToJsonArrayJugadores2(ApiFootball.conectarApi("https://v3.football.api-sports.io/players/squads?team=" + id, "01954488b25482303751a41d84b764a7"));
+        try {
+            JsonUtiles.grabar(jsonEquipo, "api" + jsonEquipo.getJSONObject(0).getJSONObject("team").getString("name").replace(" ", "") + "Squad");
+        }
+        catch(JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }
-
