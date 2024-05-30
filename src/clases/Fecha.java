@@ -1,7 +1,8 @@
-package Clases;
+package clases;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Fecha {
+public class Fecha implements Serializable {
     //Atributos
     private int numeroFecha;
     private ArrayList<PartidoFutbol> partidos;
@@ -29,10 +30,10 @@ public class Fecha {
     }
     public void agregarPartido(Equipo local, Equipo visitante) {
         getPartidos().add(new PartidoFutbol(local, visitante));
-    }
+    } //probablemente no se use
     public void sacarPartido(Equipo local, Equipo visitante){
         getPartidos().remove(devolverIndicePartido(local,visitante));
-    }
+    } //probablemente no se use
     private int devolverIndicePartido(Equipo local, Equipo visitante) {
         int rta = -1;
         for(int i = 0; i < getPartidos().size() && rta == -1; i++) {
@@ -41,7 +42,7 @@ public class Fecha {
             }
         }
         return rta;
-    }
+    } //probablemente no se use
     @Override
     public String toString() {
         String s = "";

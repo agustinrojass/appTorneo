@@ -1,6 +1,7 @@
-package Clases;
+package clases;
+import java.io.Serializable;
 
-public class PartidoFutbol {
+public class PartidoFutbol implements Serializable {
     //Atributos
     private Equipo local;
     private Equipo visitante;
@@ -48,7 +49,7 @@ public class PartidoFutbol {
         setGolesL(golesLAux);
         setGolesV(golesVAux);
         calcularPuntos();
-    }
+    } //probablemente no se use
     public void calcularPuntos() {
         if(getGolesL() > getGolesV()) {
             getLocal().ganarPartido(getGolesL(), getGolesV());
@@ -62,7 +63,7 @@ public class PartidoFutbol {
             getLocal().empatarPartido(getGolesL(), getGolesV());
             getVisitante().empatarPartido(getGolesV(), getGolesL());
         }
-    }
+    } //probablemente no se use
     @Override
     public String toString() {
         return String.format("%25s", getLocal().getNombre()) + " [" + getGolesL() + "] - [" + getGolesV() + "] " + getVisitante().getNombre();

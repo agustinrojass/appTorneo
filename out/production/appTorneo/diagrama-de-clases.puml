@@ -13,7 +13,6 @@ class Torneo {
     + agregarEquipo(equipo : Equipo) : void
     + sacarEquipo(equipo : Equipo)) : void
     - devolverTabla() : String
-    + toString() : void
 }
 class Fecha {
     - numeroFecha : int
@@ -21,7 +20,6 @@ class Fecha {
     + agregarPartido(local : Equipo, visitante : Equipo) : void
     + sacarPartido(local : Equipo, visitante : Equipo) : void
     - devolverIndicePartido(local : Equipo, visitante : Equipo) : int
-    + toString() : void
 }
 class PartidoFutbol {
     - local : Equipo
@@ -30,7 +28,6 @@ class PartidoFutbol {
     - golesV : int
     + actualizarResultado(golesLAux : int, golesVAux : int) : void
     + calcularPuntos() : void
-    + toString() : void
 }
 class Equipo {
     - nombre : String
@@ -44,26 +41,21 @@ class Equipo {
     - diferenciaGoles : int
     - golesAFavor : int
     - golesEnContra : int
+    - idEquipo : int
     + ganarPartido(golesAFavorAux : int, golesEnContraAux : int) : void
     + empatarPartido(golesAFavorAux : int, golesEnContraAux : int) : void
     + perderPartido(golesAFavorAux : int, golesEnContraAux : int) : void
     + actualizarGoles(golesAFavorAux : int, golesEnContraAux : int) : void
-    + toString() : void
-    + compareTo(obj : Object) : int
 }
 abstract class Persona {
     - nombre : String
-    - edad : int //trabajar la edad a partir de la fecha de nacimiento con Date
-    + toString() : void
+    - edad : int
 }
 class Jugador extends Persona {
     - posicion : String
     - numero : int
-    - goles : int
-    + toString() : void
 }
 class Tecnico extends Persona {
     - formacionFavorita : String
-    + toString() : void
 }
 @enduml
