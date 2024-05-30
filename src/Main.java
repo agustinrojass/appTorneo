@@ -7,6 +7,8 @@ public class Main {
     static Scanner scanner;
     public static void main(String[] args) {
         //agus
+        menu2();
+        //agus
         menu();
         //jonas
         /*
@@ -40,7 +42,7 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        JSONArray jsonTabla = JsonUtiles.informacionToJsonTabla(informacion);       //connvierto la informacion del archivo a un jsonArray para trabajar el torneo
+        JSONArray jsonTabla = JsonUtiles.informacionApiToJsonArrayTabla(informacion);       //connvierto la informacion del archivo a un jsonArray para trabajar el torneo
         Torneo torneo = new Torneo("Liga Profesional de Futbol 2024");
         ArrayList<Equipo> equipos = new ArrayList<>();
         JsonUtiles.jsonToEquipos(torneo, jsonTabla, equipos);
@@ -93,7 +95,7 @@ public class Main {
                 case 1:
                     try {
                         String apiUrl = "https://v3.football.api-sports.io/standings?league=128&season=2024";
-                        String apiKey = "d0745dc142c1ed133294934d257cb473"; //apikey personal de agus
+                        String apiKey = "01954488b25482303751a41d84b764a7";
                         jsonTabla = JsonUtiles.informacionApiToJsonArrayTabla(ApiFootball.conectarApi(apiUrl, apiKey));
                         JsonUtiles.actualizarTablaBin(jsonTabla);
                         JsonUtiles.descargarTablaBin(torneo);
@@ -109,7 +111,7 @@ public class Main {
                     try {
                         //String apiUrl = "https://v3.football.api-sports.io/players/squads?team=" + JsonUtiles.devloverId(equipo);
                         String apiUrl = "https://v3.football.api-sports.io/players/squads?team=" + id;
-                        String apiKey = "d0745dc142c1ed133294934d257cb473";
+                        String apiKey = "01954488b25482303751a41d84b764a7";
                         jsonJugadores = JsonUtiles.informacionApiToJsonArrayJugadores(ApiFootball.conectarApi(apiUrl, apiKey));
                         JsonUtiles.actualizarJugadoresBin(jsonJugadores);
                         JsonUtiles.descargarTodosJugadoresBin(torneo);
@@ -127,5 +129,28 @@ public class Main {
             }
         } while(boton != 0);
         scanner.close();
+    }
+    public static void menu2() {
+        scanner = new Scanner(System.in);
+        int boton;
+        do {
+            do {
+                System.out.println(JsonUtiles.devolverStringFormateado("apiStandings")); //muestra el json formateado, no el torneo
+                System.out.println(" [ 1 ] - Actualizar tabla");
+                System.out.println(" [ 2 ] - Actualizar jugadores de un club");
+                System.out.println(" [ 0 ] - Salir");
+                System.out.print("Ingrese el boton: ");
+                boton = scanner.nextInt();
+            } while(boton != 0 && boton != 1 && boton != 2);
+            switch(boton) {
+                case 1:
+                    JsonUtiles.grabarTabla();
+                    break;
+                case 2:
+                    System.out.print("Ingrese el id del equipo: ");
+                    JsonUtiles.grabarJugadores(scanner.nextInt());
+                    break;
+            }
+        } while(boton != 0);
     }
 }

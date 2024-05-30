@@ -12,18 +12,18 @@ public class ApiFootball {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(urlString))
-                    .header("X-apisports-Key", apiKey) //utilizo la apiKey para poder establecer la conexion y usar los datos del json de la API
-                    .method("GET", HttpRequest.BodyPublishers.noBody()) //me conecto a la API con el metodo GET
+                    .header("X-apisports-Key", apiKey) //utilizo la apikey para poder establecer la conexion y usar los datos del json de la api
+                    .method("GET", HttpRequest.BodyPublishers.noBody()) //me conecto a la api con el metodo GET
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString()); //obtengo la respuesta de la conexion
             int codigoDeRespuesta = response.statusCode(); //obtengo el codigo de respuesta
             if(codigoDeRespuesta != 200) //compruebo que codigo es
             {
-                System.out.println("Ocurrio un error" + codigoDeRespuesta);
+                System.out.println("Ocurrio un error" + codigoDeRespuesta + ".");
             }
             else { //recibimos un codigo 200 por lo que la conexion es correcta
-                System.out.println("Codigo " + codigoDeRespuesta + ". Conexion segura");
-                informacionAPI = response.body(); //Pasamos la informacion de la respuesta a un string
+                System.out.println("Codigo " + codigoDeRespuesta + ". Conexion segura.");
+                informacionAPI = response.body(); //pasamos la informacion de la respuesta a un string
             }
         }
         catch(IOException e) {
@@ -32,6 +32,6 @@ public class ApiFootball {
         catch(InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return informacionAPI; //devolvemos la informacion en formato JSON de la API, para poder empezar a trabajarlo
+        return informacionAPI; //devolvemos la informacion en formato json de la api, para poder empezar a trabajarlo
     }
 }

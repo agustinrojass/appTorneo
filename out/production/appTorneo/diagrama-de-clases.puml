@@ -10,8 +10,6 @@ class Torneo {
     - fechas : HashMap<Integer, Fecha> //la clave es el numero de fecha
     - tabla : ArrayList<Equipo> //ordenado por puntos
     - goleadores : HashMap<String, Jugador>
-    - primero : Equipo
-    - goleador : Jugador
     + agregarEquipo(equipo : Equipo) : void
     + sacarEquipo(equipo : Equipo)) : void
     - devolverTabla() : String
