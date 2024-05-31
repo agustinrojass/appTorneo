@@ -1,5 +1,5 @@
 package clases;
-import Enumeraciones.Puesto;
+import enumeraciones.Puesto;
 public class Jugador extends Persona {
     //Atributos
     private Puesto puesto;

@@ -8,12 +8,12 @@
 
 ### Diagrama de clases/Class diagram
 
-![Image text](images/diagramaDeClases.png)
+![Image text](images/classDiagram.png)
 
 ## Autores/Authors
 
 - Agustin Rojas [ [GitHub](https://github.com/agustinrojass) - [LinkedIn](https://www.linkedin.com/in/agustinrojas259/) ]
-- Joans Febbro [ [GitHub](https://github.com/jonasFebbro) ]
+- Jonas Febbro [ [GitHub](https://github.com/jonasFebbro) ]
 - Luca Coppari [ [GitHub](https://github.com/lucacoppari12) ]
 
 ## Links
@@ -24,4 +24,3 @@
 ## Licencia/License
 
 [GNU](https://www.gnu.org/licenses/gpl-3.0.html)
-
