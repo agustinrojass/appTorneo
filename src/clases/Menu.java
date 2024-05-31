@@ -8,13 +8,13 @@ public class Menu {
         int boton;
         do {
             do {
+                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                 System.out.println(torneo);
                 System.out.println("\u001B[30;100m " + String.format("%-88s", "[ 1 ] - Actualizar tabla") + "\u001B[0m");
                 System.out.println("\u001B[30;47m " + String.format("%-88s", "[ 2 ] - Actualizar jugadores de un club") + "\u001B[0m");
                 System.out.println("\u001B[30;100m " + String.format("%-88s",  "[ 0 ] - Salir") + "\u001B[0m");
                 System.out.print("Ingrese el boton: ");
                 boton = scanner.nextInt();
-                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             } while(boton != 0 && boton != 1 && boton != 2);
             switch(boton) {
                 case 1:

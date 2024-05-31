@@ -1,4 +1,4 @@
-package Enumeraciones;
+package enumeraciones;
 import java.io.Serializable;
 
 public enum Puesto implements Serializable {
