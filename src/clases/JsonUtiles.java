@@ -5,8 +5,6 @@ import org.json.JSONObject;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-
 public class JsonUtiles {
     public static JSONArray informacionApiToJsonArrayTabla(String informacionApi) {
         JSONObject jsonObj;
@@ -34,10 +32,10 @@ public class JsonUtiles {
         }
         return jsonResponse;
     } //pasa de string a jsonarray
-    public static void grabar(JSONArray array, String archivo) {
+    public static void grabar(JSONArray jsonArray, String archivo) {
         try {
             FileWriter file = new FileWriter("json\\" + archivo +".json");
-            file.write(array.toString());
+            file.write(jsonArray.toString());
             file.flush();
             file.close();
         }
@@ -91,23 +89,21 @@ public class JsonUtiles {
                         array.getJSONObject(i).getJSONObject("all").getInt("win"), //partidos ganados
                         array.getJSONObject(i).getJSONObject("all").getInt("draw"), //partidos empatados
                         array.getJSONObject(i).getJSONObject("all").getInt("lose"), //partidos perdidos
-                        array.getJSONObject(i).getInt("goalsDiff"), //diferencia de goles
                         array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("for"), //goles a favor
-                        array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("against"))); //goles en contra
+                        array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("against"), //goles en contra
+                        array.getJSONObject(i).getInt("goalsDiff"))); //diferencia de goles
             }
         }
         catch(JSONException ex) {
             throw new RuntimeException(ex);
         }
     } //pasa de .json a torneo
-    public static ArrayList<Jugador> jsonToJugadores(String archivo) {
-        ArrayList<Jugador> jugadores = new ArrayList<>();
+    public static Contenedor<Jugador> jsonToJugadores(String archivo) {
+        Contenedor<Jugador> jugadores = new Contenedor<>();
         try {
             JSONArray jsonJugadores = new JSONArray(JsonUtiles.leer("api" + archivo + "Squad"));
-            for(int i = 0; i < jsonJugadores.getJSONObject(0).getJSONArray("players").length(); i++)
-            {
-                if(!jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).isNull("number") && !jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(0).isNull("age"))
-                {
+            for(int i = 0; i < jsonJugadores.getJSONObject(0).getJSONArray("players").length(); i++) {
+                if(!jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).isNull("number") && !jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(0).isNull("age")) {
                     Jugador ju = new Jugador(jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("name"), //nombre
                             jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getInt("age"), //edad
                             jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("position"), //posicion
@@ -120,7 +116,7 @@ public class JsonUtiles {
             throw new RuntimeException(ex);
         }
         return jugadores;
-    } //pasa de .json a arraylist de jugadores
+    } //pasa de .json a contenedor de jugadores
     public static void torneoToBin(Torneo torneo) {
         ObjectOutputStream objectOutputStream = null;
         try {

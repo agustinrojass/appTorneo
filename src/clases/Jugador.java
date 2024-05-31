@@ -1,49 +1,34 @@
 package clases;
-import java.io.Serializable;
-
-public class Jugador extends Persona implements Serializable {
+import Enumeraciones.Puesto;
+public class Jugador extends Persona {
     //Atributos
-    private String posicion;
+    private Puesto puesto;
     private int numero;
     //Constructores
-    public Jugador() {
-        super();
-        setPosicion("");
-        setNumero(0);
-    }
-    public Jugador(String nombreAux, int edadAux, String posicionAux, int numeroAux) {
+    public Jugador(String nombreAux, int edadAux, String puestoAux, int numeroAux) {
         super(nombreAux, edadAux);
-        setPosicion(posicionAux);
-        setNumero(numeroAux);
-    }
-    //Metodos
-    private void setPosicion(String posicionAux) {
-        this.posicion = posicionAux;
-    }
-    private String getPosicion() {
-        return posicion;
-    }
-    private void setNumero(int numeroAux) {
+        this.puesto = establecerPuesto(puestoAux);
         this.numero = numeroAux;
     }
-    public int getNumero() {
-        return numero;
+    //Metodos
+    private Puesto establecerPuesto(String puestoAux) {
+        Puesto p;
+        if(puestoAux.equalsIgnoreCase("Attacker")) {
+            p = Puesto.DEL;
+        }
+        else if(puestoAux.equalsIgnoreCase("Midfielder")) {
+            p = Puesto.MED;
+        }
+        else if(puestoAux.equalsIgnoreCase("Defender")) {
+            p = Puesto.DEF;
+        }
+        else {
+            p = Puesto.ARQ;
+        }
+        return p;
     }
     @Override
     public String toString() {
-        String pos = "";
-        if(getPosicion().equalsIgnoreCase("Attacker")) {
-            pos = "[DEL] ";
-        }
-        else if(getPosicion().equalsIgnoreCase("Midfielder")) {
-            pos = "[MED] ";
-        }
-        else if(getPosicion().equalsIgnoreCase("Defender")) {
-            pos = "[DEF] ";
-        }
-        else if(getPosicion().equalsIgnoreCase("Goalkeeper")) {
-            pos = "[ARQ] ";
-        }
-        return pos + "| " + String.format("%3s", getNumero()) + " | " + super.toString() + " ";
+        return "[" + puesto + "] | " + String.format("%3s", numero) + " | " + super.toString() + " ";
     }
 }

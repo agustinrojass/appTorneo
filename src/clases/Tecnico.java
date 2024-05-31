@@ -1,26 +1,19 @@
 package clases;
-
 public class Tecnico extends Persona {
     //Atributos
     private String formacionFavorita;
     //Constructores
     public Tecnico() {
         super();
-        setFormacionFavorita("");
-    }
+        this.formacionFavorita = "";
+    } //por ahora se usa, pero despues no se va a usar
     public Tecnico(String nombreAux, int edadAux, String formacionFavoritaAux) {
         super(nombreAux, edadAux);
-        setFormacionFavorita(formacionFavoritaAux);
-    }
-    //Metodos
-    private void setFormacionFavorita(String formacionFavoritaAux) {
         this.formacionFavorita = formacionFavoritaAux;
     }
-    private String getFormacionFavorita() {
-        return formacionFavorita;
-    }
+    //Metodos
     @Override
     public String toString() {
-        return super.toString() + " - " + getFormacionFavorita();
+        return super.toString() + " - " + formacionFavorita;
     }
 }

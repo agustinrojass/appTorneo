@@ -1,6 +1,5 @@
 package clases;
 import java.io.Serializable;
-
 public class PartidoFutbol implements Serializable {
     //Atributos
     private Equipo local;
@@ -9,63 +8,45 @@ public class PartidoFutbol implements Serializable {
     private int golesV;
     //Constructores
     public PartidoFutbol() {
-        setLocal(new Equipo());
-        setVisitante(new Equipo());
-        setGolesL(0);
-        setGolesV(0);
-    }
+        this.local = new Equipo();
+        this.visitante = new Equipo();
+        this.golesL = 0;
+        this.golesV = 0;
+    } //por ahora no se usa
     public PartidoFutbol(Equipo localAux, Equipo visitanteAux) {
-        setLocal(localAux);
-        setVisitante(visitanteAux);
-        setGolesL(0);
-        setGolesV(0);
+        this.local = localAux;
+        this.visitante = visitanteAux;
+        this.golesL = 0;
+        this.golesV = 0;
     }
     //Metodos
-    private void setLocal(Equipo localAux) {
-        this.local = localAux;
-    }
     public Equipo getLocal() {
         return local;
-    }
-    private void setVisitante(Equipo visitanteAux) {
-        this.visitante = visitanteAux;
     }
     public Equipo getVisitante() {
         return visitante;
     }
-    private void setGolesL(int golesLAux) {
-        this.golesL = golesLAux;
-    }
-    public int getGolesL() {
-        return golesL;
-    }
-    private void setGolesV(int golesVAux) {
-        this.golesV = golesVAux;
-    }
-    public int getGolesV() {
-        return golesV;
-    }
     public void actualizarResultado(int golesLAux, int golesVAux) {
-        setGolesL(golesLAux);
-        setGolesV(golesVAux);
+        this.golesL = golesLAux;
+        this.golesV = golesVAux;
         calcularPuntos();
-    } //probablemente no se use
+    } //por ahora no se usa
     public void calcularPuntos() {
-        if(getGolesL() > getGolesV()) {
-            getLocal().ganarPartido(getGolesL(), getGolesV());
-            getVisitante().perderPartido(getGolesV(), getGolesL());
+        if(golesL > golesV) {
+            local.ganarPartido(golesL, golesV);
+            visitante.perderPartido(golesV, golesL);
         }
-        else if(getGolesL() < getGolesV()) {
-            getLocal().perderPartido(getGolesL(), getGolesV());
-            getVisitante().ganarPartido(getGolesV(), getGolesL());
+        else if(golesL < golesV) {
+            local.perderPartido(golesL, golesV);
+            visitante.ganarPartido(golesV, golesL);
         }
         else {
-            getLocal().empatarPartido(getGolesL(), getGolesV());
-            getVisitante().empatarPartido(getGolesV(), getGolesL());
+            local.empatarPartido(golesL, golesV);
+            visitante.empatarPartido(golesV, golesL);
         }
-    } //probablemente no se use
+    } //por ahora no se usa
     @Override
     public String toString() {
-        return String.format("%25s", getLocal().getNombre()) + " [" + getGolesL() + "] - [" + getGolesV() + "] " + getVisitante().getNombre();
+        return String.format("%25s", local.getNombre()) + " [" + golesL + "] - [" + golesV + "] " + visitante.getNombre();
     }
 }
