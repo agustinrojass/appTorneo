@@ -1,34 +1,21 @@
 package clases;
 import java.io.Serializable;
-
 public class Persona implements Serializable {
     //Artibutos
     private String nombre;
-    private int edad;//trabajar la edad a partir de la fecha de nacimiento con Date
+    private int edad;
     //Constructores
     public Persona() {
-        setNombre("");
-        setEdad(0);
-    }
+        this.nombre = "";
+        this.edad = 0;
+    } //se usa por Tecnico(), pero despues no se va a usar
     public Persona(String nombreAux, int edadAux) {
-        setNombre(nombreAux);
-        setEdad(edadAux);
-    }
-    //Metodos
-    private void setNombre(String nombreAux) {
         this.nombre = nombreAux;
-    }
-    public String getNombre() {
-        return nombre;
-    }
-    private void setEdad(int edadAux) {
         this.edad = edadAux;
     }
-    private int getEdad() {
-        return edad;
-    }
+    //Metodos
     @Override
     public String toString() {
-        return String.format("%-40s", getNombre() + " (" + getEdad() + ")");
+        return String.format("%-40s", nombre + " (" + edad + ")");
     }
 }
