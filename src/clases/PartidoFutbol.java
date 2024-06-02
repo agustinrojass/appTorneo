@@ -19,6 +19,14 @@ public class PartidoFutbol implements Serializable {
         this.golesL = 0;
         this.golesV = 0;
     }
+
+    public PartidoFutbol(Equipo local, Equipo visitante, int golesL, int golesV) {
+        this.local = local;
+        this.visitante = visitante;
+        this.golesL = golesL;
+        this.golesV = golesV;
+    }
+
     //Metodos
     public Equipo getLocal() {
         return local;
@@ -47,6 +55,12 @@ public class PartidoFutbol implements Serializable {
     } //por ahora no se usa
     @Override
     public String toString() {
-        return String.format("%25s", local.getNombre()) + " [" + golesL + "] - [" + golesV + "] " + visitante.getNombre();
+        String goles = " [" + golesL + "] - [" + golesV + "] ";
+        if (golesL == 4000 && golesV == 4000)       //formateo para que no ponga 4000 goles por si era null en la api pq todavia no se jugo
+        {
+            goles = " [" + " " + "] - [" + " " + "] ";
+        }
+        //return String.format("%25s", local.getNombre()) + " [" + golesL + "] - [" + golesV + "] " + visitante.getNombre();
+        return String.format("%25s", local.getNombre()) + goles + visitante.getNombre();
     }
 }
