@@ -43,6 +43,12 @@ public class Equipo implements Serializable {
         this.golesEnContra = golesEnContraAux;
         this.diferenciaGoles = diferenciaGolesAux;
     }
+
+    public Equipo(int idEquipo, String nombre) {        //se usa en jsonToFixture pq era la unica info que traia la api
+        this.idEquipo = idEquipo;
+        this.nombre = nombre;
+    }
+
     //Metodos
     public int getIdEquipo() {
         return idEquipo;

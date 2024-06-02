@@ -1,5 +1,7 @@
 package clases;
 import java.io.Serializable;
+import java.util.ArrayList;
+
 public class Torneo implements Serializable {
     //Atributos
     private String nombre;
@@ -28,6 +30,9 @@ public class Torneo implements Serializable {
     } //por ahora no se usa
     public void agregarEquipo(Equipo equipo) {
         tabla.add(equipo);
+    }
+    public void agregarFixture(ArrayList<Fecha> fixtureFechas) {
+        fechas = new Contenedor<>(fixtureFechas);           //agrego el fixture que es un Array a el contenedor de fechas
     }
     private String devolverTabla() {
         String s = "\u001B[30;100m" + " Pos | Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif | #ID    " + "\u001B[0m\n";

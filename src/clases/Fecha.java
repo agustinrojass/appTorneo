@@ -13,10 +13,19 @@ public class Fecha implements Serializable {
         this.numeroFecha = numeroFechaAux;
         this.partidos = new Contenedor<>();
     }
+
+    public Fecha(int numeroFechaAux, Contenedor<PartidoFutbol> partidosFecha) {
+        this.numeroFecha = numeroFechaAux;
+        this.partidos = partidosFecha;
+    }
+
     //Metodos
     public Contenedor<PartidoFutbol> getPartidos() {
         return partidos;
     } //por ahora no se usa
+    public int getNumeroFecha() {
+        return numeroFecha;
+    }
     public void agregarPartido(Equipo local, Equipo visitante) {
         this.partidos.add(new PartidoFutbol(local, visitante));
     } //por ahora se usa
