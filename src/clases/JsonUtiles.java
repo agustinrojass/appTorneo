@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+
 public class JsonUtiles {
     public static JSONArray informacionApiToJsonArrayTabla(String informacionApi) {
         JSONObject jsonObj;
@@ -65,7 +67,7 @@ public class JsonUtiles {
         return s;
     } //pasa de .json a string
     public static void grabarTabla() {
-        JSONArray jsonTabla = JsonUtiles.informacionApiToJsonArrayTabla(ApiFootball.conectarApi("https://v3.football.api-sports.io/standings?league=128&season=2024", "d0745dc142c1ed133294934d257cb473"));
+        JSONArray jsonTabla = JsonUtiles.informacionApiToJsonArrayTabla(ApiFootball.conectarApi("https://v3.football.api-sports.io/standings?league=128&season=2024", "e322d3134e96e5ca6f13792f4df66ed5"));
         JsonUtiles.grabar(jsonTabla, "apiStandings");
     } //descarga los datos de la api y los guarda en .json
     public static void grabarJugadores(int id) {
@@ -157,4 +159,90 @@ public class JsonUtiles {
         }
         return torneo;
     } //pasa de .bin a torneo
+
+
+    public static JSONArray informacionApiToJsonArrayFixture(String informacionApi) {
+        JSONObject jsonObj;
+        JSONArray jsA;
+        try {
+            assert informacionApi != null;
+            jsonObj = new JSONObject(informacionApi);
+            jsA = jsonObj.getJSONArray("response");
+        }
+        catch(JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return jsA;
+    } //pasa de string a jsonarray   -------> podria usarse la misma que informacionApiToJsonArrayJugadores??
+
+    public static void grabarFixture() {
+        JSONArray jsonFixture = JsonUtiles.informacionApiToJsonArrayFixture(ApiFootball.conectarApi("https://v3.football.api-sports.io/fixtures?league=128&season=2024", "e322d3134e96e5ca6f13792f4df66ed5"));
+        JsonUtiles.grabar(jsonFixture, "apiFixture");
+    } //descarga los datos de la api y los guarda en .json
+
+
+    public static ArrayList<Fecha> jsonToFixture(String archivo) {
+        ArrayList<Fecha> fechas = new ArrayList<>();
+        try {
+            JSONArray jsonFixture = new JSONArray(JsonUtiles.leer("apiFixture"));
+            int totalPartidos = jsonFixture.length();
+            int totalFechas = totalPartidos / 14;
+            int i = 0;
+
+            for (int j = 0; j < totalFechas; j++)        //las 14 fechas
+            {
+                Contenedor<PartidoFutbol> partidosFecha = new Contenedor<>();
+                for(int k = 0; k < 14 && i < totalPartidos; k++, i++) {     //todos los partidos y me fijo de cortar cada 14 fechas
+
+                    Equipo local = new Equipo(jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("home").getInt("id"),
+                            jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("home").getString("name"));
+                    Equipo visitante = new Equipo(jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("away").getInt("id"),
+                            jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("away").getString("name"));
+
+                    int golesL;
+                    int golesV;
+                    if ((jsonFixture.getJSONObject(i).getJSONObject("goals").isNull("home")) && (jsonFixture.getJSONObject(i).getJSONObject("goals").isNull("away"))) {
+                        golesL = 4000;      //numero grande para identificar q es imposible
+                        golesV = 4000;      //numero grande para identificar q es imposible
+                    }
+                    else {
+                        golesL = jsonFixture.getJSONObject(i).getJSONObject("goals").getInt("home");
+                        golesV = jsonFixture.getJSONObject(i).getJSONObject("goals").getInt("away");
+                    }
+                    partidosFecha.add(new PartidoFutbol(local, visitante, golesL, golesV));
+                }
+                Fecha fe = new Fecha(j+1, partidosFecha);
+                fechas.add(fe);
+            }
+        }
+        catch(JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return fechas;
+    } //pasa de .json a Array de fechas que despues se usa para agregarlo directamente al contenedor de fechas de Torneo
+
+    public static void jsonToTorneo2(Torneo torneo, String archivo) {
+        try {
+            JSONArray array = new JSONArray(JsonUtiles.leer(archivo));
+            for(int i = 0; i < array.length(); i++) {
+                torneo.agregarEquipo(new Equipo(array.getJSONObject(i).getJSONObject("team").getInt("id"), //id
+                        array.getJSONObject(i).getJSONObject("team").getString("name"), //nombre
+                        jsonToJugadores(array.getJSONObject(i).getJSONObject("team").getString("name").replace(" ", "")), //jugadores
+                        array.getJSONObject(i).getInt("points"), //puntos
+                        array.getJSONObject(i).getJSONObject("all").getInt("played"), //partidos jugados
+                        array.getJSONObject(i).getJSONObject("all").getInt("win"), //partidos ganados
+                        array.getJSONObject(i).getJSONObject("all").getInt("draw"), //partidos empatados
+                        array.getJSONObject(i).getJSONObject("all").getInt("lose"), //partidos perdidos
+                        array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("for"), //goles a favor
+                        array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("against"), //goles en contra
+                        array.getJSONObject(i).getInt("goalsDiff"))); //diferencia de goles
+            }
+            torneo.agregarFixture(jsonToFixture("apiFixture"));         //CARGO EL FIXTURE
+        }
+        catch(JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }   //casi igual que la de jsonToTorneo, solo cambia que despues del for se agrega el fixture
+        // tranquilamente se podria cambiar ya creo
+
 }
