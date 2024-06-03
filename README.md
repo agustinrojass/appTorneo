@@ -8,7 +8,7 @@
 
 ### Diagrama de clases/Class diagram
 
-![Image text](images/classDiagram.png)
+![Image text](images/classDiagram1.png)
 
 ## Autores/Authors
 

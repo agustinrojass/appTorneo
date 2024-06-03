@@ -14,6 +14,9 @@ public class Persona implements Serializable {
         this.edad = edadAux;
     }
     //Metodos
+    public String getNombre() {
+        return nombre;
+    }
     @Override
     public String toString() {
         return String.format("%-40s", nombre + " (" + edad + ")");

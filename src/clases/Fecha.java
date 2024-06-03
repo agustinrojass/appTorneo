@@ -5,44 +5,28 @@ public class Fecha implements Serializable {
     private int numeroFecha;
     private Contenedor<PartidoFutbol> partidos;
     //Constructores
-    public Fecha() {
-        this.numeroFecha = 0;
-        this.partidos = new Contenedor<>();
-    }
-    public Fecha(int numeroFechaAux) {
-        this.numeroFecha = numeroFechaAux;
-        this.partidos = new Contenedor<>();
-    }
-
     public Fecha(int numeroFechaAux, Contenedor<PartidoFutbol> partidosFecha) {
         this.numeroFecha = numeroFechaAux;
         this.partidos = partidosFecha;
     }
-
     //Metodos
     public Contenedor<PartidoFutbol> getPartidos() {
         return partidos;
-    } //por ahora no se usa
+    }
     public int getNumeroFecha() {
         return numeroFecha;
-    }
-    public void agregarPartido(Equipo local, Equipo visitante) {
-        this.partidos.add(new PartidoFutbol(local, visitante));
-    } //por ahora se usa
-    private int devolverIndicePartido(Equipo local, Equipo visitante) {
-        int rta = -1;
-        for(int i = 0; i < partidos.size() && rta == -1; i++) {
-            if(partidos.get(i).getLocal().equals(local) && partidos.get(i).getVisitante().equals(visitante)) {
-                rta = i;
-            }
-        }
-        return rta;
     } //por ahora no se usa
     @Override
     public String toString() {
-        String s = "Fecha: " + numeroFecha;
+        String s = "\u001B[30;100m " + String.format("%-88s", " Fecha: " + numeroFecha) + "\u001B[0m\n";
+        s += "\u001B[30;47m" + "                                      Local - Visitante                                  " + "\u001B[0m\n";
         for(int i = 0; i < partidos.size(); i++) {
-            s += partidos.get(i) + "\n";
+            if(i % 2 == 0) {
+                s += "\u001B[30;100m     " + partidos.get(i).toString() + "\u001B[0m\n";
+            }
+            else {
+                s += "\u001B[30;47m     " + partidos.get(i).toString() + "\u001B[0m\n";
+            }
         }
         return s;
     }

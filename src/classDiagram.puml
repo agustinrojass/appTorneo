@@ -8,17 +8,24 @@ Equipo -. Jugador
 Equipo -. Tecnico
 class Torneo {
     - nombre : String
-    - fechas : Contenedor<Fecha>
+    - fixture : Contenedor<Fecha>
     - tabla : Contenedor<Equipo>
     - goleadores : Contenedor<Jugador>
     + getNombre() : String
+    + getFixture() : Contenedor<Fecha>
+    + getTabla() : Contenedor<Equipo>
     + agregarEquipo(equipo : Equipo) : void
+    + agregarFixture(fixtureAux : Contenedor<Fecha>) : void
+    + agregarGoleadores(goleadoresAux : Contenedor<Jugador>) : void
     - devolverTabla() : String
+    + devolverFixtureEquipo(nombre : String) : String
+    + devolverGoleadores() : String
     + toString() : String
 }
 class Fecha {
     - numeroFecha : int
     - partidos : Contenedor<PartidoFutbol>
+    + getPartidos() : Contenedor<PartidoFutbol>
     + toString() : String
 }
 class PartidoFutbol {
@@ -45,6 +52,7 @@ class Equipo {
     - diferenciaGoles : int
     + getIdEquipo() : int
     + getNombre() : String
+    + devolverEquipoCompleto(pos : int) : String
     + toString() : String
 }
 abstract class Persona {
@@ -55,11 +63,14 @@ abstract class Persona {
 class Jugador extends Persona {
     - puesto : Puesto
     - numero : int
+    - goles : int
+    + setGoles(golesAux : int) : void
+    + getGoles() : int
     - establecerPuesto(puestoAux : String) : Puesto
     + toString() : String
 }
 class Tecnico extends Persona {
-    - formacionFavorita : String
+    - trayectoria : Contenedor<String>
     + toString() : String
 }
 @enduml
