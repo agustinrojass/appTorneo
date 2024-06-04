@@ -15,20 +15,6 @@ public class Equipo implements Serializable {
     private int golesEnContra;
     private int diferenciaGoles;
     //Construtores
-    public Equipo() {
-        this.idEquipo = 0;
-        this.nombre = "";
-        this.tecnico = new Tecnico();
-        this.jugadores = new Contenedor<>();
-        this.puntos = 0;
-        this.partidosJugados = 0;
-        this.partidosGanados = 0;
-        this.partidosEmpatados = 0;
-        this.partidosPerdidos = 0;
-        this.golesAFavor = 0;
-        this.golesEnContra = 0;
-        this.diferenciaGoles = 0;
-    } //se usa en PartidoFutbol(), pero despues no se va a usar
     public Equipo(int idEquipoAux, String nombreAux, Contenedor<Jugador> jugadoresAux, int puntosAux, int partidosJugadosAux, int partidosGanadosAux, int partidosEmpatadosAux, int partidosPerdidosAux, int golesAFavorAux, int golesEnContraAux, int diferenciaGolesAux) {
         this.idEquipo = idEquipoAux;
         this.nombre = nombreAux;
@@ -43,12 +29,24 @@ public class Equipo implements Serializable {
         this.golesEnContra = golesEnContraAux;
         this.diferenciaGoles = diferenciaGolesAux;
     }
-
+    public Equipo(int idEquipoAux, String nombreAux, Tecnico tecnicoAux, Contenedor<Jugador> jugadoresAux, int puntosAux, int partidosJugadosAux, int partidosGanadosAux, int partidosEmpatadosAux, int partidosPerdidosAux, int golesAFavorAux, int golesEnContraAux, int diferenciaGolesAux) {
+        this.idEquipo = idEquipoAux;
+        this.nombre = nombreAux;
+        this.tecnico = tecnicoAux;
+        this.jugadores = jugadoresAux;
+        this.puntos = puntosAux;
+        this.partidosJugados = partidosJugadosAux;
+        this.partidosGanados = partidosGanadosAux;
+        this.partidosEmpatados = partidosEmpatadosAux;
+        this.partidosPerdidos = partidosPerdidosAux;
+        this.golesAFavor = golesAFavorAux;
+        this.golesEnContra = golesEnContraAux;
+        this.diferenciaGoles = diferenciaGolesAux;
+    }
     public Equipo(int idEquipo, String nombre) {        //se usa en jsonToFixture pq era la unica info que traia la api
         this.idEquipo = idEquipo;
         this.nombre = nombre;
     }
-
     //Metodos
     public int getIdEquipo() {
         return idEquipo;
@@ -62,28 +60,20 @@ public class Equipo implements Serializable {
     public Contenedor<Jugador> getJugadores() {
         return jugadores;
     } //por ahora no se usa
-    public void ganarPartido(int golesAFavorAux, int golesEnContraAux) {
-        this.puntos = puntos + 3;
-        this.partidosJugados = partidosJugados + 1;
-        this.partidosGanados = partidosGanados + 1;
-        actualizarGoles(golesAFavorAux, golesEnContraAux);
-    } //por ahora no se usa
-    public void empatarPartido(int golesAFavorAux, int golesEnContraAux) {
-        this.puntos = puntos + 1;
-        this.partidosJugados = partidosJugados + 1;
-        this.partidosEmpatados = partidosEmpatados + 1;
-        actualizarGoles(golesAFavorAux, golesEnContraAux);
-    } //por ahora no se usa
-    public void perderPartido(int golesAFavorAux, int golesEnContraAux) {
-        this.partidosJugados = partidosJugados + 1;
-        this.partidosPerdidos = partidosPerdidos + 1;
-        actualizarGoles(golesAFavorAux, golesEnContraAux);
-    } //por ahora no se usa
-    public void actualizarGoles(int golesAFavorAux, int golesEnContraAux) {
-        this.golesAFavor = golesAFavorAux + golesAFavorAux;
-        this.golesEnContra = golesEnContra + golesEnContraAux;
-        this.diferenciaGoles = golesAFavor - golesEnContra;
-    } //por ahora no se usa
+    public String devolverEquipoCompleto(int pos) {
+        String s = "\u001B[30;100m" + " Pos | Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif | #ID    " + "\u001B[0m\n";
+        s += "\u001B[30;47m " + String.format("%3s", pos) + " | " + toString() + " | " +"\u001B[97;47m" + String.format("%7s", "[" + idEquipo + "] ") + "\u001B[0m\n\n";
+        s += "\u001B[30;100m " + String.format("%-88s", "Puesto | Num | Nombre (Edad)") + "\u001B[0m\n";
+        for(int i = 0; i < jugadores.size(); i++) {
+            if(i % 2 == 0) {
+                s += "\u001B[30;47m " + String.format("%-88s", jugadores.get(i)) + String.format("%s", jugadores.get(i).getGoles()) + "\u001B[0m\n";
+            }
+            else {
+                s += "\u001B[30;100m " + String.format("%-88s", jugadores.get(i)) + String.format("%s", jugadores.get(i).getGoles()) + "\u001B[0m\n";
+            }
+        }
+        return s;
+    }
     @Override
     public String toString() {
         String s = String.format("%-30s", nombre) + " | " + String.format("%3s", puntos) + " | " + String.format("%2s", partidosJugados) +

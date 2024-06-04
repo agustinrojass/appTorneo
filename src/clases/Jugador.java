@@ -4,13 +4,27 @@ public class Jugador extends Persona {
     //Atributos
     private Puesto puesto;
     private int numero;
+    private int goles;
     //Constructores
     public Jugador(String nombreAux, int edadAux, String puestoAux, int numeroAux) {
         super(nombreAux, edadAux);
         this.puesto = establecerPuesto(puestoAux);
         this.numero = numeroAux;
+        this.goles = 0;
+    }
+    public Jugador(String nombreAux, int edadAux, String puestoAux, int numeroAux, int golesAux) {
+        super(nombreAux, edadAux);
+        this.puesto = establecerPuesto(puestoAux);
+        this.numero = numeroAux;
+        this.goles = golesAux;
     }
     //Metodos
+    public void setGoles(int golesAux) {
+        this.goles = golesAux;
+    }
+    public int getGoles() {
+        return goles;
+    }
     private Puesto establecerPuesto(String puestoAux) {
         Puesto p;
         if(puestoAux.equalsIgnoreCase("Attacker")) {
@@ -29,6 +43,6 @@ public class Jugador extends Persona {
     }
     @Override
     public String toString() {
-        return "[" + puesto + "] | " + String.format("%3s", numero) + " | " + super.toString() + " ";
+        return "[" + puesto + "]  | " + String.format("%3s", numero) + " | " + super.toString() + " ";
     }
 }

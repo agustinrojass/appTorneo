@@ -12,13 +12,18 @@ class Torneo {
     - tabla : Contenedor<Equipo>
     - goleadores : Contenedor<Jugador>
     + getNombre() : String
+    + getFixture() : Contenedor<Fecha>
+    + getTabla() : Contenedor<Equipo>
     + agregarEquipo(equipo : Equipo) : void
+    + agregarFixture(fixtureAux : Contenedor<Fecha>) : void
     - devolverTabla() : String
+    + devolverFixtureEquipo(nombre : String) : String
     + toString() : String
 }
 class Fecha {
     - numeroFecha : int
     - partidos : Contenedor<PartidoFutbol>
+    + getPartidos() : Contenedor<PartidoFutbol>
     + toString() : String
 }
 class PartidoFutbol {
@@ -45,6 +50,7 @@ class Equipo {
     - diferenciaGoles : int
     + getIdEquipo() : int
     + getNombre() : String
+    + devolverEquipoCompleto(pos : int) : String
     + toString() : String
 }
 abstract class Persona {

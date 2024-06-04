@@ -5,8 +5,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 public class ApiFootball {
-    public static String conectarApi(String urlString, String apiKey)
-    {
+    public static String conectarApi(String urlString, String apiKey) {
         String informacionAPI = null;
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -16,8 +15,7 @@ public class ApiFootball {
                     .build();
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString()); //obtengo la respuesta de la conexion
             int codigoDeRespuesta = response.statusCode(); //obtengo el codigo de respuesta
-            if(codigoDeRespuesta != 200) //compruebo que codigo es
-            {
+            if(codigoDeRespuesta != 200) { //compruebo que codigo es
                 System.out.println("Ocurrio un error" + codigoDeRespuesta + ".");
             }
             else { //recibimos un codigo 200 por lo que la conexion es correcta
@@ -25,11 +23,11 @@ public class ApiFootball {
                 informacionAPI = response.body(); //pasamos la informacion de la respuesta a un string
             }
         }
-        catch(IOException e) {
-            throw new RuntimeException(e);
+        catch(IOException ex) {
+            throw new RuntimeException(ex);
         }
-        catch(InterruptedException e) {
-            throw new RuntimeException(e);
+        catch(InterruptedException ex) {
+            throw new RuntimeException(ex);
         }
         return informacionAPI; //devolvemos la informacion en formato json de la api, para poder empezar a trabajarlo
     }
