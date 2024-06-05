@@ -81,8 +81,8 @@ public class Menu {
         if(boton != 0) {
             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             System.out.println(torneo.getTabla().get(boton - 1).devolverEquipoCompleto(boton));
-            String nombre = torneo.getTabla().get((boton) - 1).getNombre();
-            System.out.println(torneo.devolverFixtureEquipo(nombre));
+            int id = torneo.getTabla().get((boton) - 1).getIdEquipo();
+            System.out.println(torneo.devolverFixtureEquipo(id));
             do {
                 System.out.println("\u001B[30;100m " + String.format("%-88s", "[ 0 ] - Volver") + "\u001B[0m ");
                 System.out.print("\u001B[30;47m " + "Ingrese el boton: " + "\u001B[0m ");
@@ -120,18 +120,32 @@ public class Menu {
                     JsonUtiles.grabarGoleadores();
                     break;
                 case 4: //actualiza el .json de los jugadores de un equipo
-                    System.out.print("Ingrese el id del equipo: ");
-                    JsonUtiles.grabarJugadores(scanner.nextInt());
+                    do {
+                        System.out.print("Ingrese el id del equipo: ");
+                        String s = scanner.next();
+                        boton = validarEntero(s);
+                    } while(boton == -1);
+                    if(boton != 0) {
+                        JsonUtiles.grabarJugadores(boton);
+                    }
+                    boton = 4;
                     break;
                 case 5: //actualiza el .json de los tecnicos de un equipo
-                    System.out.print("Ingrese el id del equipo: ");
-                    JsonUtiles.grabarTecnicos(scanner.nextInt());
+                    do {
+                        System.out.print("Ingrese el id del equipo: ");
+                        String s = scanner.next();
+                        boton = validarEntero(s);
+                    } while(boton == -1);
+                    if(boton != 0) {
+                        JsonUtiles.grabarTecnicos(boton);
+                    }
+                    boton = 5;
                     break;
                 case 6: //exporta el torneo a un .json
                     JsonUtiles.grabarTorneo(torneo.exportarJson());
                     break;
             }
-            if(boton != 0) {
+            if(boton != 0 && boton != 6) {
                 torneo = JsonUtiles.jsonToTorneo();
                 JsonUtiles.torneoToBin(torneo);
             }

@@ -49,12 +49,12 @@ public class Torneo implements Serializable, IExportarJson {
         }
         return s;
     }
-    public String devolverFixtureEquipo(String nombre) {
+    public String devolverFixtureEquipo(int id) {
         String s = "\u001B[30;100m " + String.format("%-88s", "Partidos") + "\u001B[0m\n";
         s += "\u001B[30;47m" + "                                      Local - Visitante                                  " + "\u001B[0m\n";
         for(int i = 0; i < fixture.size(); i++) {
             for(int j = 0; j < fixture.get(i).getPartidos().size(); j++) {
-                if(fixture.get(i).getPartidos().get(j).getLocal().getNombre().equals(nombre) || fixture.get(i).getPartidos().get(j).getVisitante().getNombre().equals(nombre)) {
+                if(fixture.get(i).getPartidos().get(j).getLocal().getIdEquipo() == id || fixture.get(i).getPartidos().get(j).getVisitante().getIdEquipo() == id) {
                     if(i % 2 == 0) {
                         s += "\u001B[30;100m " + String.format("%-4s", "F" + (i + 1)) + fixture.get(i).getPartidos().get(j) + "\u001B[0m\n";
                     }
