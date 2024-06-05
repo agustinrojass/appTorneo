@@ -1,12 +1,15 @@
 @startuml
-Torneo -. Fecha
-Torneo -. Equipo
-Torneo -. Jugador
-Fecha -. PartidoFutbol
-PartidoFutbol -. Equipo
-Equipo -. Jugador
-Equipo -. Tecnico
-class Torneo {
+Torneo <--> Fecha
+Torneo <----> Equipo
+Torneo <-----> Jugador
+Fecha <--> PartidoFutbol
+PartidoFutbol <--> Equipo
+Equipo <--> Jugador
+Equipo <--> Tecnico
+interface IExportarJson {
+    + exportarJson() : JSONObject
+}
+class Torneo implements IExportarJson {
     - nombre : String
     - fixture : Contenedor<Fecha>
     - tabla : Contenedor<Equipo>
@@ -21,6 +24,7 @@ class Torneo {
     + devolverFixtureEquipo(nombre : String) : String
     + devolverGoleadores() : String
     + toString() : String
+    + exportarJson() : JSONObject
 }
 class Fecha {
     - numeroFecha : int
@@ -35,6 +39,8 @@ class PartidoFutbol {
     - golesV : int
     + getLocal() : Equipo
     + getVisitante() : Equipo
+    + getGolesL() : int
+    + getGolesV() : int
     + toString() : String
 }
 class Equipo {
@@ -52,18 +58,32 @@ class Equipo {
     - diferenciaGoles : int
     + getIdEquipo() : int
     + getNombre() : String
+    + getTecnico() : Tecnico
+    + getJugadores() : Contenedor<Jugador>
+    + getPuntos() : int
+    + getPartidosJugados() : int
+    + getPartidosGanados() : int
+    + getPartidosEmpatados() : int
+    + getPartidosPerdidos() : int
+    + getGolesAFavor() : int
+    + getGolesEnContra() : int
+    + getDiferenciaGoles() : int
     + devolverEquipoCompleto(pos : int) : String
     + toString() : String
 }
 abstract class Persona {
     - nombre : String
     - edad : int
+    + getNombre() : String
+    + getEdad() : int
     + toString() : String
 }
 class Jugador extends Persona {
     - puesto : Puesto
     - numero : int
     - goles : int
+    + getPuesto() : Puesto
+    + getNumero() : int
     + setGoles(golesAux : int) : void
     + getGoles() : int
     - establecerPuesto(puestoAux : String) : Puesto
@@ -71,6 +91,7 @@ class Jugador extends Persona {
 }
 class Tecnico extends Persona {
     - trayectoria : Contenedor<String>
+    + getTrayectoria() : Contenedor<String>
     + toString() : String
 }
 @enduml

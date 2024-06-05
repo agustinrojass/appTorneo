@@ -16,10 +16,10 @@ public class ApiFootball {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString()); //obtengo la respuesta de la conexion
             int codigoDeRespuesta = response.statusCode(); //obtengo el codigo de respuesta
             if(codigoDeRespuesta != 200) { //compruebo que codigo es
-                System.out.println("Ocurrio un error" + codigoDeRespuesta + ".");
+                System.out.println("\u001B[30;41m" + "Error " + codigoDeRespuesta + ".\u001B[0m");
             }
             else { //recibimos un codigo 200 por lo que la conexion es correcta
-                System.out.println("Codigo " + codigoDeRespuesta + ". Conexion segura.");
+                System.out.println("\u001B[30;42m" + "Conexion segura.\u001B[0m");
                 informacionAPI = response.body(); //pasamos la informacion de la respuesta a un string
             }
         }

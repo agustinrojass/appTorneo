@@ -15,7 +15,7 @@ public class Fecha implements Serializable {
     }
     public int getNumeroFecha() {
         return numeroFecha;
-    } //por ahora no se usa
+    }
     @Override
     public String toString() {
         String s = "\u001B[30;100m " + String.format("%-88s", " Fecha: " + numeroFecha) + "\u001B[0m\n";
