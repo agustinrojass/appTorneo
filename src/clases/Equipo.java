@@ -14,21 +14,7 @@ public class Equipo implements Serializable {
     private int golesAFavor;
     private int golesEnContra;
     private int diferenciaGoles;
-    //Construtores
-    public Equipo(int idEquipoAux, String nombreAux, Contenedor<Jugador> jugadoresAux, int puntosAux, int partidosJugadosAux, int partidosGanadosAux, int partidosEmpatadosAux, int partidosPerdidosAux, int golesAFavorAux, int golesEnContraAux, int diferenciaGolesAux) {
-        this.idEquipo = idEquipoAux;
-        this.nombre = nombreAux;
-        this.tecnico = new Tecnico();
-        this.jugadores = jugadoresAux;
-        this.puntos = puntosAux;
-        this.partidosJugados = partidosJugadosAux;
-        this.partidosGanados = partidosGanadosAux;
-        this.partidosEmpatados = partidosEmpatadosAux;
-        this.partidosPerdidos = partidosPerdidosAux;
-        this.golesAFavor = golesAFavorAux;
-        this.golesEnContra = golesEnContraAux;
-        this.diferenciaGoles = diferenciaGolesAux;
-    }
+    //Constructores
     public Equipo(int idEquipoAux, String nombreAux, Tecnico tecnicoAux, Contenedor<Jugador> jugadoresAux, int puntosAux, int partidosJugadosAux, int partidosGanadosAux, int partidosEmpatadosAux, int partidosPerdidosAux, int golesAFavorAux, int golesEnContraAux, int diferenciaGolesAux) {
         this.idEquipo = idEquipoAux;
         this.nombre = nombreAux;
@@ -43,7 +29,7 @@ public class Equipo implements Serializable {
         this.golesEnContra = golesEnContraAux;
         this.diferenciaGoles = diferenciaGolesAux;
     }
-    public Equipo(int idEquipo, String nombre) {        //se usa en jsonToFixture pq era la unica info que traia la api
+    public Equipo(int idEquipo, String nombre) {
         this.idEquipo = idEquipo;
         this.nombre = nombre;
     }
@@ -56,20 +42,45 @@ public class Equipo implements Serializable {
     }
     public Tecnico getTecnico() {
         return tecnico;
-    } //por ahora no se usa
+    }
     public Contenedor<Jugador> getJugadores() {
         return jugadores;
-    } //por ahora no se usa
+    }
+    public int getPuntos() {
+        return puntos;
+    }
+    public int getPartidosJugados() {
+        return partidosJugados;
+    }
+    public int getPartidosGanados() {
+        return partidosGanados;
+    }
+    public int getPartidosEmpatados() {
+        return partidosEmpatados;
+    }
+    public int getPartidosPerdidos() {
+        return partidosPerdidos;
+    }
+    public int getGolesAFavor() {
+        return golesAFavor;
+    }
+    public int getGolesEnContra() {
+        return golesEnContra;
+    }
+    public int getDiferenciaGoles() {
+        return diferenciaGoles;
+    }
     public String devolverEquipoCompleto(int pos) {
-        String s = "\u001B[30;100m" + " Pos | Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif | #ID    " + "\u001B[0m\n";
-        s += "\u001B[30;47m " + String.format("%3s", pos) + " | " + toString() + " | " +"\u001B[97;47m" + String.format("%7s", "[" + idEquipo + "] ") + "\u001B[0m\n\n";
-        s += "\u001B[30;100m " + String.format("%-88s", "Puesto | Num | Nombre (Edad)") + "\u001B[0m\n";
+        String s = "\u001B[30;100m " + "Pos | Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif | #ID    " + "\u001B[0m\n";
+        s += "\u001B[30;47m " + String.format("%3s", pos) + " | " + this + " | " +"\u001B[97;47m" + String.format("%7s", "[" + idEquipo + "] ") + "\u001B[0m\n";
+        s += "\u001B[30;100m " + "Tecnico: " + String.format("%-79s", tecnico) + "\u001B[0m\n\n";
+        s += "\u001B[30;100m " + String.format("%-88s", "Puesto | Num | Nombre (Edad)                            | Goles") + "\u001B[0m\n";
         for(int i = 0; i < jugadores.size(); i++) {
             if(i % 2 == 0) {
-                s += "\u001B[30;47m " + String.format("%-88s", jugadores.get(i)) + String.format("%s", jugadores.get(i).getGoles()) + "\u001B[0m\n";
+                s += "\u001B[30;47m " + String.format("%-88s", jugadores.get(i)) + "\u001B[0m\n";
             }
             else {
-                s += "\u001B[30;100m " + String.format("%-88s", jugadores.get(i)) + String.format("%s", jugadores.get(i).getGoles()) + "\u001B[0m\n";
+                s += "\u001B[30;100m " + String.format("%-88s", jugadores.get(i)) + "\u001B[0m\n";
             }
         }
         return s;
@@ -87,34 +98,4 @@ public class Equipo implements Serializable {
         }
         return s;
     }
-    public int compareTo(Object obj) {
-        int rta = 0;
-        if(obj != null) {
-            if(obj instanceof Equipo e) {
-                if(puntos > e.puntos) {
-                    rta = -1;
-                }
-                else if(puntos < e.puntos) {
-                    rta = 1;
-                }
-                else {
-                    if(diferenciaGoles > e.diferenciaGoles) {
-                        rta = -1;
-                    }
-                    else if(diferenciaGoles < e.diferenciaGoles) {
-                        rta = 1;
-                    }
-                    else {
-                        if(golesAFavor > e.golesAFavor) {
-                            rta = -1;
-                        }
-                        else if (golesAFavor < e.golesAFavor) {
-                            rta = 1;
-                        }
-                    }
-                }
-            }
-        }
-        return rta;
-    } //por ahora no se usa
 }

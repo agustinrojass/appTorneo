@@ -19,6 +19,12 @@ public class Jugador extends Persona {
         this.goles = golesAux;
     }
     //Metodos
+    public Puesto getPuesto() {
+        return puesto;
+    }
+    public int getNumero() {
+        return numero;
+    }
     public void setGoles(int golesAux) {
         this.goles = golesAux;
     }
@@ -43,6 +49,13 @@ public class Jugador extends Persona {
     }
     @Override
     public String toString() {
-        return "[" + puesto + "]  | " + String.format("%3s", numero) + " | " + super.toString() + " ";
+        String s = "[" + puesto + "]  | " + String.format("%3s", numero) + " | " + super.toString() + " | ";
+        if(goles != 0) {
+            s += String.format("%5s", goles) + " ";
+        }
+        else {
+            s += "      ";
+        }
+        return s;
     }
 }

@@ -6,48 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 public class JsonUtiles {
-    //
-    public static JSONArray informacionApiToJsonArrayTabla(String informacionApi) {
-        JSONObject jsonObj;
-        JSONArray jsA;
-        try {
-            assert informacionApi != null;
-            jsonObj = new JSONObject(informacionApi);
-            jsA = jsonObj.getJSONArray("response").getJSONObject(0).getJSONObject("league").getJSONArray("standings").getJSONArray(0);
-        }
-        catch(JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-        return jsA;
-    } //pasa de string a jsonarray
-    ////////// unificar las 4 de abajo (todavia no)
-    public static JSONArray informacionApiToJsonArrayJugadores(String informacionApi) {
-        JSONObject jsonObj;
-        JSONArray jsA;
-        try {
-            assert informacionApi != null;
-            jsonObj = new JSONObject(informacionApi);
-            jsA = jsonObj.getJSONArray("response");
-        }
-        catch(JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-        return jsA;
-    } //pasa de string a jsonarray //podria usarse la misma que informacionApiToJsonArrayFixture
-    public static JSONArray informacionApiToJsonArrayFixture(String informacionApi) {
-        JSONObject jsonObj;
-        JSONArray jsA;
-        try {
-            assert informacionApi != null;
-            jsonObj = new JSONObject(informacionApi);
-            jsA = jsonObj.getJSONArray("response");
-        }
-        catch(JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-        return jsA;
-    } //pasa de string a jsonarray //podria usarse la misma que informacionApiToJsonArrayJugadores
-    public static JSONArray informacionApiToJsonArrayTecnicos(String informacionApi) {
+    public static JSONArray informacionApiToJsonArray(String informacionApi) {
         JSONObject jsonObj;
         JSONArray jsA;
         try {
@@ -60,20 +19,6 @@ public class JsonUtiles {
         }
         return jsA;
     } //pasa de string a jsonarray
-    public static JSONArray informacionApiToJsonArrayGoleadores(String informacionApi) {
-        JSONObject jsonObj;
-        JSONArray jsA;
-        try {
-            assert informacionApi != null;
-            jsonObj = new JSONObject(informacionApi);
-            jsA = jsonObj.getJSONArray("response");
-        }
-        catch(JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-        return jsA;
-    } //pasa de string a jsonarray
-    //
     public static void grabar(JSONArray jsonArray, String archivo) {
         try {
             FileWriter file = new FileWriter("json\\" + archivo +".json");
@@ -82,7 +27,7 @@ public class JsonUtiles {
             file.close();
         }
         catch(IOException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     } //pasa de jsonarray a .json
     public static void grabar(JSONObject jsonObject, String archivo) {
@@ -93,73 +38,70 @@ public class JsonUtiles {
             file.close();
         }
         catch(IOException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     } //pasa de jsonobject a .json //por ahora no se usa
     public static String leer(String archivo) {
-        String s = "";
+        String s;
         try {
             s = new String(Files.readAllBytes(Paths.get("json\\" + archivo + ".json")));
         }
         catch(IOException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
         return s;
     } //pasa de .json a string
-    //
+    public static void grabarTorneo(JSONObject joTorneo) {
+        try {
+            grabar(joTorneo, joTorneo.getString("nombre").replace(" ", ""));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    } //guarda el torneo en un .json
     public static void grabarTabla() {
-        JSONArray jsonTabla = JsonUtiles.informacionApiToJsonArrayTabla(ApiFootball.conectarApi("https://v3.football.api-sports.io/standings?league=128&season=2024", "d0745dc142c1ed133294934d257cb473"));
-        JsonUtiles.grabar(jsonTabla, "apiStandings");
-    } //descarga los datos de la api y los guarda en .json
+        JSONArray jaTabla = JsonUtiles.informacionApiToJsonArray(ApiFootball.conectarApi("https://v3.football.api-sports.io/standings?league=128&season=2024", "d0745dc142c1ed133294934d257cb473"));
+        try {
+            JsonUtiles.grabar(jaTabla.getJSONObject(0).getJSONObject("league").getJSONArray("standings").getJSONArray(0), "apiTabla");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    } //descarga la tabla de la api y los guarda en .json
     public static void grabarJugadores(int id) {
-        JSONArray jsonEquipo = JsonUtiles.informacionApiToJsonArrayJugadores(ApiFootball.conectarApi("https://v3.football.api-sports.io/players/squads?team=" + id, "d0745dc142c1ed133294934d257cb473"));
-        try {
-            JsonUtiles.grabar(jsonEquipo, "api" + jsonEquipo.getJSONObject(0).getJSONObject("team").getString("name").replace(" ", "") + "Squad");
-        }
-        catch(JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-    } //descarga los datos de la api y los guarda en .json
+        JSONArray jaJugadores = JsonUtiles.informacionApiToJsonArray(ApiFootball.conectarApi("https://v3.football.api-sports.io/players/squads?team=" + id, "d0745dc142c1ed133294934d257cb473"));
+        JsonUtiles.grabar(jaJugadores, "jugadores\\apiJugadores" + id);
+    } //descarga los jugadores de un equipo de la api y los guarda en .json
     public static void grabarFixture() {
-        JSONArray jsonFixture = JsonUtiles.informacionApiToJsonArrayFixture(ApiFootball.conectarApi("https://v3.football.api-sports.io/fixtures?league=128&season=2024", "d0745dc142c1ed133294934d257cb473"));
-        JsonUtiles.grabar(jsonFixture, "apiFixture");
-    } //descarga los datos de la api y los guarda en .json
+        JSONArray jaFixture = JsonUtiles.informacionApiToJsonArray(ApiFootball.conectarApi("https://v3.football.api-sports.io/fixtures?league=128&season=2024", "d0745dc142c1ed133294934d257cb473"));
+        JsonUtiles.grabar(jaFixture, "apiFixture");
+    } //descarga el fixture de la api y los guarda en .json
     public static void grabarTecnicos(int id) {
-        JSONArray jsonEquipo = JsonUtiles.informacionApiToJsonArrayTecnicos(ApiFootball.conectarApi("https://v3.football.api-sports.io/coachs?team=" + id, "d0745dc142c1ed133294934d257cb473"));
-        try {
-            JsonUtiles.grabar(jsonEquipo, "api" + jsonEquipo.getJSONObject(0).getJSONObject("team").getString("name").replace(" ", "") + "Coaches");
-        }
-        catch(JSONException ex) {
-            throw new RuntimeException(ex);
-        }
-    } //descarga los datos de la api y los guarda en .json
+        JSONArray jaTecnicos = JsonUtiles.informacionApiToJsonArray(ApiFootball.conectarApi("https://v3.football.api-sports.io/coachs?team=" + id, "d0745dc142c1ed133294934d257cb473"));
+        JsonUtiles.grabar(jaTecnicos, "tecnicos\\apiTecnicos" + id);
+    } //descarga los tecnicos de un equipo de la api y los guarda en .json
     public static void grabarGoleadores() {
-        JSONArray jsonFixture = JsonUtiles.informacionApiToJsonArrayGoleadores(ApiFootball.conectarApi("https://v3.football.api-sports.io/players/topscorers?league=128&season=2024", "d0745dc142c1ed133294934d257cb473"));
-        JsonUtiles.grabar(jsonFixture, "apiTopScorers");
-    } //descarga los datos de la api y los guarda en .json
-    //
-    public static Torneo jsonToTorneo(String archivo) {
+        JSONArray jaGoleadores = JsonUtiles.informacionApiToJsonArray(ApiFootball.conectarApi("https://v3.football.api-sports.io/players/topscorers?league=128&season=2024", "d0745dc142c1ed133294934d257cb473"));
+        JsonUtiles.grabar(jaGoleadores, "apiGoleadores");
+    } //descarga los goleadores de la api y los guarda en .json
+    public static Torneo jsonToTorneo() {
         Torneo torneo = new Torneo("Liga Profesional de Futbol 2024");
         try {
-            JSONArray array = new JSONArray(JsonUtiles.leer(archivo));
-            for(int i = 0; i < array.length(); i++) {
-                //Tecnico t = new Tecnico();
-                //usar el constructor de equipo con el tecnico
-                //no coinciden los nombres de los .json
-                torneo.agregarEquipo(new Equipo(array.getJSONObject(i).getJSONObject("team").getInt("id"), //id
-                        array.getJSONObject(i).getJSONObject("team").getString("name"), //nombre
-                        jsonToJugadores(array.getJSONObject(i).getJSONObject("team").getString("name").replace(" ", "")), //jugadores
-                        array.getJSONObject(i).getInt("points"), //puntos
-                        array.getJSONObject(i).getJSONObject("all").getInt("played"), //partidos jugados
-                        array.getJSONObject(i).getJSONObject("all").getInt("win"), //partidos ganados
-                        array.getJSONObject(i).getJSONObject("all").getInt("draw"), //partidos empatados
-                        array.getJSONObject(i).getJSONObject("all").getInt("lose"), //partidos perdidos
-                        array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("for"), //goles a favor
-                        array.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("against"), //goles en contra
-                        array.getJSONObject(i).getInt("goalsDiff"))); //diferencia de goles
+            JSONArray jaTabla = new JSONArray(JsonUtiles.leer("apiTabla"));
+            for(int i = 0; i < jaTabla.length(); i++) {
+                torneo.agregarEquipo(new Equipo(jaTabla.getJSONObject(i).getJSONObject("team").getInt("id"), //id
+                        jaTabla.getJSONObject(i).getJSONObject("team").getString("name"), //nombre
+                        jsonToTecnico("tecnicos\\apiTecnicos" + jaTabla.getJSONObject(i).getJSONObject("team").getInt("id")), //tecnico
+                        jsonToJugadores("jugadores\\apiJugadores" + jaTabla.getJSONObject(i).getJSONObject("team").getInt("id")), //jugadores
+                        jaTabla.getJSONObject(i).getInt("points"), //puntos
+                        jaTabla.getJSONObject(i).getJSONObject("all").getInt("played"), //partidos jugados
+                        jaTabla.getJSONObject(i).getJSONObject("all").getInt("win"), //partidos ganados
+                        jaTabla.getJSONObject(i).getJSONObject("all").getInt("draw"), //partidos empatados
+                        jaTabla.getJSONObject(i).getJSONObject("all").getInt("lose"), //partidos perdidos
+                        jaTabla.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("for"), //goles a favor
+                        jaTabla.getJSONObject(i).getJSONObject("all").getJSONObject("goals").getInt("against"), //goles en contra
+                        jaTabla.getJSONObject(i).getInt("goalsDiff"))); //diferencia de goles
             }
             torneo.agregarFixture(jsonToFixture("apiFixture")); //fixture
-            torneo.agregarGoleadores(jsonToGoleadores("apiTopScorers", torneo)); //goleadores
+            torneo.agregarGoleadores(jsonToGoleadores("apiGoleadores", torneo)); //goleadores
         }
         catch(JSONException ex) {
             throw new RuntimeException(ex);
@@ -169,14 +111,14 @@ public class JsonUtiles {
     public static Contenedor<Jugador> jsonToJugadores(String archivo) {
         Contenedor<Jugador> jugadores = new Contenedor<>();
         try {
-            JSONArray jsonJugadores = new JSONArray(JsonUtiles.leer("api" + archivo + "Squad"));
-            for(int i = 0; i < jsonJugadores.getJSONObject(0).getJSONArray("players").length(); i++) {
-                if(!jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).isNull("number") &&
-                        !jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(0).isNull("age")) {
-                    Jugador ju = new Jugador(jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("name"), //nombre
-                            jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getInt("age"), //edad
-                            jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("position"), //posicion
-                            jsonJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getInt("number")); //numero
+            JSONArray jaJugadores = new JSONArray(JsonUtiles.leer(archivo));
+            for(int i = 0; i < jaJugadores.getJSONObject(0).getJSONArray("players").length(); i++) {
+                if(!jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).isNull("number") &&
+                        !jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(0).isNull("age")) {
+                    Jugador ju = new Jugador(jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("name"), //nombre
+                            jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getInt("age"), //edad
+                            jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("position"), //posicion
+                            jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getInt("number")); //numero
                     jugadores.add(ju);
                 }
             }
@@ -189,21 +131,21 @@ public class JsonUtiles {
     public static Contenedor<Fecha> jsonToFixture(String archivo) {
         Contenedor<Fecha> fixture = new Contenedor<>();
         try {
-            JSONArray jsonFixture = new JSONArray(JsonUtiles.leer(archivo));
+            JSONArray jaFixture = new JSONArray(JsonUtiles.leer(archivo));
             int i = 0;
-            for(int j = 0; j < jsonFixture.length() / 14; j++) { //las 14 fechas
+            for(int j = 0; j < jaFixture.length() / 14; j++) { //las 14 fechas
                 Contenedor<PartidoFutbol> partidos = new Contenedor<>();
-                for(int k = 0; k < 14 && i < jsonFixture.length(); k++, i++) { //todos los partidos y me fijo de cortar cada 14 fechas
-                    Equipo local = new Equipo(jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("home").getInt("id"),
-                            jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("home").getString("name"));
-                    Equipo visitante = new Equipo(jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("away").getInt("id"),
-                            jsonFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("away").getString("name"));
+                for(int k = 0; k < 14 && i < jaFixture.length(); k++, i++) { //todos los partidos y me fijo de cortar cada 14 fechas
+                    Equipo local = new Equipo(jaFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("home").getInt("id"),
+                            jaFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("home").getString("name"));
+                    Equipo visitante = new Equipo(jaFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("away").getInt("id"),
+                            jaFixture.getJSONObject(i).getJSONObject("teams").getJSONObject("away").getString("name"));
                     int golesL = -1;
                     int golesV = -1;
-                    if(!(jsonFixture.getJSONObject(i).getJSONObject("goals").isNull("home")) &&
-                            !(jsonFixture.getJSONObject(i).getJSONObject("goals").isNull("away"))) {
-                        golesL = jsonFixture.getJSONObject(i).getJSONObject("goals").getInt("home");
-                        golesV = jsonFixture.getJSONObject(i).getJSONObject("goals").getInt("away");
+                    if(!(jaFixture.getJSONObject(i).getJSONObject("goals").isNull("home")) &&
+                            !(jaFixture.getJSONObject(i).getJSONObject("goals").isNull("away"))) {
+                        golesL = jaFixture.getJSONObject(i).getJSONObject("goals").getInt("home");
+                        golesV = jaFixture.getJSONObject(i).getJSONObject("goals").getInt("away");
                     }
                     partidos.add(new PartidoFutbol(local, visitante, golesL, golesV));
                 }
@@ -214,17 +156,22 @@ public class JsonUtiles {
             throw new RuntimeException(ex);
         }
         return fixture;
-    } //pasa de .json a contenedor de fechas
+    } //pasa de .json a contenedor de fechas (fixture)
     public static Tecnico jsonToTecnico(String archivo) {
-        Tecnico tecnico = new Tecnico();
+        Tecnico tecnico;
         try {
-            JSONArray jsonTecnicos = new JSONArray(JsonUtiles.leer(archivo));
-            String nombre = jsonTecnicos.getJSONObject(0).getString("name");
-            int edad = jsonTecnicos.getJSONObject(0).getInt("age");
-            Contenedor<String> trayectoria = new Contenedor<>();
-            for(int i = 0; i < jsonTecnicos.length(); i++) {
-                trayectoria.add(jsonTecnicos.getJSONObject(0).getJSONArray("career").getJSONObject(i).getJSONObject("team").getString("name"));
+            JSONArray jaTecnicos = new JSONArray(JsonUtiles.leer(archivo));
+            int edad = -1;
+            if(!jaTecnicos.getJSONObject(0).isNull("age")) {
+                edad = jaTecnicos.getJSONObject(0).getInt("age");
             }
+            Contenedor<String> trayectoria = new Contenedor<>();
+            for(int i = 0; i < jaTecnicos.getJSONObject(0).getJSONArray("career").length(); i++) {
+                trayectoria.add(jaTecnicos.getJSONObject(0).getJSONArray("career").getJSONObject(i).getJSONObject("team").getString("name"));
+            }
+            tecnico = new Tecnico(jaTecnicos.getJSONObject(0).getString("name"), //nombre
+                    edad, //edad
+                    trayectoria); //trayectoria
         } catch (JSONException ex) {
             throw new RuntimeException(ex);
         }
@@ -233,14 +180,14 @@ public class JsonUtiles {
     public static Contenedor<Jugador> jsonToGoleadores(String archivo, Torneo torneo) {
         Contenedor<Jugador> goleadores = new Contenedor<>();
         try {
-            JSONArray jsonGoleadores = new JSONArray(JsonUtiles.leer(archivo));
-            for(int i = 0; i < jsonGoleadores.length(); i++) {
-                String equipo = jsonGoleadores.getJSONObject(i).getJSONArray("statistics").getJSONObject(0).getJSONObject("team").getString("name");
-                String nombre = jsonGoleadores.getJSONObject(i).getJSONObject("player").getString("name");
-                int goles = jsonGoleadores.getJSONObject(i).getJSONArray("statistics").getJSONObject(0).getJSONObject("goals").getInt("total");
+            JSONArray jaGoleadores = new JSONArray(JsonUtiles.leer(archivo));
+            for(int i = 0; i < jaGoleadores.length(); i++) {
+                int idEquipo = jaGoleadores.getJSONObject(i).getJSONArray("statistics").getJSONObject(0).getJSONObject("team").getInt("id");
+                String nombre = jaGoleadores.getJSONObject(i).getJSONObject("player").getString("name");
+                int goles = jaGoleadores.getJSONObject(i).getJSONArray("statistics").getJSONObject(0).getJSONObject("goals").getInt("total");
                 boolean jFlag = false;
                 for(int j = 0; j < torneo.getTabla().size() && !jFlag; j++) {
-                    if(torneo.getTabla().get(j).getNombre().equals(equipo)) {
+                    if(torneo.getTabla().get(j).getIdEquipo() == idEquipo) {
                         jFlag = true;
                         boolean kFlag = false;
                         for(int k = 0; k < torneo.getTabla().get(j).getJugadores().size() && !kFlag; k++) {
@@ -259,7 +206,6 @@ public class JsonUtiles {
         }
         return goleadores;
     } //pasa de .json a contenedor de jugadores (goleadores)
-    //
     public static void torneoToBin(Torneo torneo) {
         ObjectOutputStream objectOutputStream = null;
         try {
@@ -279,11 +225,11 @@ public class JsonUtiles {
             }
         }
     } //pasa de torneo a .bin
-    public static Torneo binToTorneo(String nombre) {
+    public static Torneo binToTorneo() {
         Torneo torneo;
         ObjectInputStream objectInputStream = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream("bin\\" + nombre.replace(" ", "") + ".bin");
+            FileInputStream fileInputStream = new FileInputStream("bin\\LigaProfesionaldeFutbol2024.bin");
             objectInputStream = new ObjectInputStream(fileInputStream);
             torneo = (Torneo) objectInputStream.readObject();
         }
@@ -302,13 +248,13 @@ public class JsonUtiles {
     } //pasa de .bin a torneo
     public static int buscarIndice(String nombre, int id) {
         Torneo torneo;
-        int x = -1;
+        int x = -2;
         ObjectInputStream objectInputStream = null;
         try {
             FileInputStream fileInputStream = new FileInputStream("bin\\" + nombre.replace(" ", "") + ".bin");
             objectInputStream = new ObjectInputStream(fileInputStream);
             torneo = (Torneo) objectInputStream.readObject();
-            for(int i = 0; i < torneo.getTabla().size() && x == -1; i++) {
+            for(int i = 0; i < torneo.getTabla().size() && x == -2; i++) {
                 if(torneo.getTabla().get(i).getIdEquipo() == id) {
                     x = i;
                 }

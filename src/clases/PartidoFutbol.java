@@ -20,10 +20,16 @@ public class PartidoFutbol implements Serializable {
     public Equipo getVisitante() {
         return visitante;
     }
+    public int getGolesL() {
+        return golesL;
+    }
+    public int getGolesV() {
+        return golesV;
+    }
     @Override
     public String toString() {
         String goles;
-        if(golesL == -1 && golesV == -1) { //formateo para que no ponga 4000 goles por si era null en la api pq todavia no se jugo
+        if(golesL == -1 && golesV == -1) {
             goles = " [" + " " + "] - [" + " " + "] ";
         }
         else {
