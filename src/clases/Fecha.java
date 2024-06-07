@@ -2,8 +2,8 @@ package clases;
 import java.io.Serializable;
 public class Fecha implements Serializable {
     //Atributos
-    private int numeroFecha;
-    private Contenedor<PartidoFutbol> partidos;
+    private final int numeroFecha;
+    private final Contenedor<PartidoFutbol> partidos;
     //Constructores
     public Fecha(int numeroFechaAux, Contenedor<PartidoFutbol> partidosFecha) {
         this.numeroFecha = numeroFechaAux;

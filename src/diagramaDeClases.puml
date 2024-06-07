@@ -6,6 +6,13 @@ Fecha <--> PartidoFutbol
 PartidoFutbol <--> Equipo
 Equipo <--> Jugador
 Equipo <--> Tecnico
+Jugador <-> Puesto
+enum Puesto {
+    DEL
+    MED
+    DEF
+    ARQ
+}
 interface IExportarJson {
     + exportarJson() : JSONObject
 }
@@ -43,7 +50,7 @@ class PartidoFutbol {
     + getGolesV() : int
     + toString() : String
 }
-class Equipo {
+class Equipo implements IExportarJson {
     - idEquipo : int
     - nombre : String
     - tecnico : Tecnico

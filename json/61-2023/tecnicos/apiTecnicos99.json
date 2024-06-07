@@ -1,0 +1,34 @@
+[
+    {
+      "firstname": "Pascal",
+      "career": [
+        {
+          "start": "2017-09-01",
+          "end": null,
+          "team": {
+            "name": "Clermont Foot",
+            "logo": "https://media.api-sports.io/football/teams/99.png",
+            "id": 99
+          },
+        }
+      ],
+      "nationality": "France",
+      "name": "P. Gastien",
+      "birth": {
+        "date": "1963-12-02",
+        "country": "France",
+        "place": "Rochefort"
+      },
+      "weight": null,
+      "photo": "https://media.api-sports.io/football/coachs/1468.png",
+      "id": 1468,
+      "team": {
+        "name": "Clermont Foot",
+        "logo": "https://media.api-sports.io/football/teams/99.png",
+        "id": 99
+      },
+      "age": 60,
+      "lastname": "Gastien",
+      "height": null
+    }
+  ]

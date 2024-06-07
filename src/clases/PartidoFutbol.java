@@ -2,10 +2,10 @@ package clases;
 import java.io.Serializable;
 public class PartidoFutbol implements Serializable {
     //Atributos
-    private Equipo local;
-    private Equipo visitante;
-    private int golesL;
-    private int golesV;
+    private final Equipo local;
+    private final Equipo visitante;
+    private final int golesL;
+    private final int golesV;
     //Constructores
     public PartidoFutbol(Equipo local, Equipo visitante, int golesL, int golesV) {
         this.local = local;

@@ -2,8 +2,8 @@ package clases;
 import enumeraciones.Puesto;
 public class Jugador extends Persona {
     //Atributos
-    private Puesto puesto;
-    private int numero;
+    private final Puesto puesto;
+    private final int numero;
     private int goles;
     //Constructores
     public Jugador(String nombreAux, int edadAux, String puestoAux, int numeroAux) {
