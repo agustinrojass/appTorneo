@@ -1,101 +1,85 @@
 package clases;
 import excepciones.*;
-
 import java.util.Scanner;
 public class Menu {
     static Scanner scanner;
     public static void menu() {
         scanner = new Scanner(System.in);
         int liga;
-        int temporada = 0;
-        String s = "";
         do {
-            System.out.println("\u001B[30;100m " + String.format("%-88s","appTorneo") + "\u001B[0m ");
-            System.out.println("\u001B[30;47m " + String.format("%-88s", "[ 128 ] - Liga Profesional Argentina") + "\u001B[0m");
-            System.out.println("\u001B[30;100m " + String.format("%-88s", "[  39 ] - Premier League") + "\u001B[0m");
-            System.out.println("\u001B[30;47m " + String.format("%-88s",  "[ 140 ] - La liga") + "\u001B[0m");
-            System.out.println("\u001B[30;100m " + String.format("%-88s",  "[ 135 ] - Serie A") + "\u001B[0m");
-            System.out.println("\u001B[30;47m " + String.format("%-88s",  "[  78 ] - Bundesliga") + "\u001B[0m");
-            System.out.println("\u001B[30;100m " + String.format("%-88s", "[  61 ] - Ligue 1") + "\u001B[0m");
-            System.out.println("\u001B[30;47m " + String.format("%-88s", "[   0 ] - Salir") + "\u001B[0m");
-            System.out.print("\u001B[30;100m " + "Ingrese el boton: " + "\u001B[0m ");
-            String respuesta = scanner.next();
-            liga = validarEntero(respuesta);
-            if(liga < -1 || liga > 0) {
-                System.out.println();
-            }
-        } while(liga != 128 && liga != 39 && liga != 140 && liga != 135 && liga != 78 && liga != 61);
-        switch(liga) {
-            case 128:
-                temporada = 2024;
-                s = "LigaProfesionalArgentina" + temporada;
-                break;
-            case 39:
-                temporada = 2023;
-                s = "PremierLeague" + temporada;
-                break;
-            case 140:
-                temporada = 2023;
-                s = "LaLiga" + temporada;
-                break;
-            case 135:
-                temporada = 2023;
-                s = "SerieA" + temporada;
-                break;
-            case 78:
-                temporada = 2023;
-                s = "Bundesliga" + temporada;
-                break;
-            case 61:
-                temporada = 2023;
-                s = "Ligue1" + temporada;
-                break;
-        }
-        try {
-
-
-            JsonUtiles.grabarJugadores(504, 135, 2023);
-            JsonUtiles.grabarJugadores(867, 135, 2023);
-            JsonUtiles.grabarJugadores(494, 135, 2023);
-            JsonUtiles.grabarJugadores(490, 135, 2023);
-            JsonUtiles.grabarJugadores(511, 135, 2023);
-            JsonUtiles.grabarJugadores(512, 135, 2023);
-            JsonUtiles.grabarJugadores(488, 135, 2023);
-            JsonUtiles.grabarJugadores(514, 135, 2023);
-            JsonUtiles.grabarGoleadores(135, 2023);
-        }
-        catch(DescargaCanceladaException ex) {
-            System.out.println("\n\u001B[30;41m " + ex.getMotivo() + " \u001B[0m");
-        }
-        try {
-            //Torneo torneo = JsonUtiles.binToTorneo(s);
-            Torneo torneo = JsonUtiles.jsonToTorneo(liga, temporada);
-            JsonUtiles.torneoToBin(torneo);
-            int boton;
+            int temporada = 2023;
+            String s = "";
             do {
-                boton = mostrarBotones(torneo);
-                switch(boton) {
-                    case 1: //muestra el fixture
-                        verFixture(torneo);
-                        break;
-                    case 2: //muestra un equipo
-                        verEquipos(torneo);
-                        break;
-                    case 3: //muestra los goleadores
-                        verGoleadores(torneo);
-                        break;
-                    case 4: //administra el sistema
-                        torneo = administrarSistema(liga, temporada);
-                        break;
+                System.out.println("\u001B[30;100m " + String.format("%-88s", "appTorneo") + "\u001B[0m ");
+                System.out.println("\u001B[30;47m " + String.format("%-88s", "[ 1 ] - Liga Profesional Argentina") + "\u001B[0m");
+                System.out.println("\u001B[30;100m " + String.format("%-88s", "[ 2 ] - Premier League") + "\u001B[0m");
+                System.out.println("\u001B[30;47m " + String.format("%-88s", "[ 3 ] - La liga") + "\u001B[0m");
+                System.out.println("\u001B[30;100m " + String.format("%-88s", "[ 4 ] - Serie A") + "\u001B[0m");
+                System.out.println("\u001B[30;47m " + String.format("%-88s", "[ 5 ] - Bundesliga") + "\u001B[0m");
+                System.out.println("\u001B[30;100m " + String.format("%-88s", "[ 6 ] - Ligue 1") + "\u001B[0m");
+                System.out.println("\u001B[30;47m " + String.format("%-88s", "[ 0 ] - Salir") + "\u001B[0m");
+                System.out.print("\u001B[30;100m " + "Ingrese el boton: " + "\u001B[0m ");
+                String respuesta = scanner.next();
+                liga = validarEntero(respuesta);
+                if(liga < -1 || liga > 6) {
+                    System.out.println();
                 }
-            } while(boton != 0);
-        }
-        catch(DescargaCanceladaException | ArchivoNoCerradoException ex) {
-            System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
-        }
-        catch(JsonErrorException | CargaCanceladaException ex) {
-            System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
-        }
+            } while(liga < 0 || liga > 6);
+            switch(liga) {
+                case 1:
+                    liga = 128;
+                    temporada = 2024;
+                    s = "LigaProfesionalArgentina" + temporada;
+                    break;
+                case 2:
+                    liga = 39;
+                    s = "PremierLeague" + temporada;
+                    break;
+                case 3:
+                    liga = 140;
+                    s = "PrimeraDivisión" + temporada;
+                    break;
+                case 4:
+                    liga = 135;
+                    s = "SerieA" + temporada;
+                    break;
+                case 5:
+                    liga = 78;
+                    s = "Bundesliga" + temporada;
+                    break;
+                case 6:
+                    liga = 61;
+                    s = "Ligue1" + temporada;
+                    break;
+            }
+            if(liga != 0) {
+                try {
+                    Torneo torneo = JsonUtiles.binToTorneo(s);
+                    int boton;
+                    do {
+                        boton = mostrarBotones(torneo);
+                        switch(boton) {
+                            case 1: //muestra el fixture
+                                verFixture(torneo);
+                                break;
+                            case 2: //muestra un equipo
+                                verEquipos(torneo);
+                                break;
+                            case 3: //muestra los goleadores
+                                verGoleadores(torneo);
+                                break;
+                            case 4: //administra el sistema
+                                torneo = administrarSistema(liga, temporada);
+                                break;
+                        }
+                    } while(boton != 0);
+                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                }
+                catch(DescargaCanceladaException | ArchivoNoCerradoException ex) {
+                    System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
+                }
+            }
+        } while(liga != 0);
     }
     private static int mostrarBotones(Torneo torneo) {
         int boton;
@@ -107,7 +91,7 @@ public class Menu {
             System.out.println("\u001B[30;100m " + String.format("%-88s",  "[ 3 ] - Mostrar goleadores") + "\u001B[0m");
             System.out.println("\u001B[30;47m " + String.format("%-88s",  "[ 4 ] - Administrador") + "\u001B[0m");
             System.out.println("\u001B[30;100m " + String.format("%-88s", "[ 0 ] - Salir") + "\u001B[0m");
-            System.out.print("\u001B[30;47m " + "Ingrese el boton: "+ "\u001B[0m ");
+            System.out.print("\u001B[30;47m " + "Ingrese el boton: " + "\u001B[0m ");
             String s = scanner.next();
             boton = validarEntero(s);
             if(boton < -1 || boton > 4) {
@@ -167,7 +151,7 @@ public class Menu {
     private static Torneo administrarSistema(int liga, int temporada) {
         String contrasena;
         do {
-            System.out.print("\u001B[30;100m " +"Ingrese la contraseña: " + "\u001B[0m ");
+            System.out.print("\u001B[30;100m " + "Ingrese la contrasena: " + "\u001B[0m ");
             contrasena = scanner.next();
             if(!contrasena.equals("1994")) {
                 System.out.println("\u001B[30;41m" + "La contraseña es incorrecta" + ".\u001B[0m\n");
@@ -186,7 +170,7 @@ public class Menu {
                             JsonUtiles.grabarTabla(liga, temporada);
                         }
                         catch(DescargaCanceladaException ex) {
-                            System.out.println("\n\u001B[30;41m " + ex.getMotivo() + " \u001B[0m");
+                            System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
                         }
                         break;
                     case 2: //actualiza el .json del fixture
@@ -194,7 +178,7 @@ public class Menu {
                             JsonUtiles.grabarFixture(liga, temporada);
                         }
                         catch(DescargaCanceladaException ex) {
-                            System.out.println("\n\u001B[30;41m " + ex.getMotivo() + " \u001B[0m");
+                            System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
                         }
                         break;
                     case 3: //actualiza el .json de la tabla goleadores
@@ -202,7 +186,7 @@ public class Menu {
                             JsonUtiles.grabarGoleadores(liga, temporada);
                         }
                         catch(DescargaCanceladaException ex) {
-                            System.out.println("\n\u001B[30;41m " + ex.getMotivo() + " \u001B[0m");
+                            System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
                         }
                         break;
                     case 4: //actualiza el .json de los jugadores de un equipo
@@ -227,7 +211,7 @@ public class Menu {
                                 JsonUtiles.grabarJugadores(boton, liga, temporada);
                             }
                             catch(DescargaCanceladaException ex) {
-                                System.out.println("\n\u001B[30;41m " + ex.getMotivo() + " \u001B[0m");
+                                System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
                             }
                         }
                         boton = 4;
@@ -253,7 +237,7 @@ public class Menu {
                                 JsonUtiles.grabarTecnicos(boton, liga, temporada);
                             }
                             catch(DescargaCanceladaException ex) {
-                                System.out.println("\n\u001B[30;41m " + ex.getMotivo() + " \u001B[0m");
+                                System.out.println("\n\u001B[30;41m " + ex.getMessage() + " \u001B[0m");
                             }
                         }
                         boton = 5;

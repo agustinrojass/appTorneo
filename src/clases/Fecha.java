@@ -10,11 +10,11 @@ public class Fecha implements Serializable {
         this.partidos = partidosFecha;
     }
     //Metodos
-    public Contenedor<PartidoFutbol> getPartidos() {
-        return partidos;
-    }
     public int getNumeroFecha() {
         return numeroFecha;
+    }
+    public Contenedor<PartidoFutbol> getPartidos() {
+        return partidos;
     }
     @Override
     public String toString() {

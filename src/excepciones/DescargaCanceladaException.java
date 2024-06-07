@@ -3,12 +3,12 @@ public class DescargaCanceladaException extends Exception {
     //Atributos
     private final String motivo;
     //Constructores
-    public DescargaCanceladaException(String motivoaux) {
+    public DescargaCanceladaException(String motivoAux) {
         super();
-        this.motivo = motivoaux;
+        this.motivo = motivoAux;
     }
     //Metodos
-    public String getMotivo() {
+    public String getMessage() {
         return motivo;
     }
 }

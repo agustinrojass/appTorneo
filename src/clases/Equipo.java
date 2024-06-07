@@ -77,7 +77,7 @@ public class Equipo implements Serializable, IExportarJson {
     }
     public String devolverEquipoCompleto(int pos) {
         String s = "\u001B[30;100m " + "Pos | Equipo                         | Pts | PJ | PG | PE | PP | GF | GC | Dif | #ID    " + "\u001B[0m\n";
-        s += "\u001B[30;47m " + String.format("%3s", pos) + " | " + this + " | " +"\u001B[97;47m" + String.format("%7s", "[" + idEquipo + "] ") + "\u001B[0m\n";
+        s += "\u001B[30;47m " + String.format("%3s", pos) + " | " + this + " | " + "\u001B[97;47m" + String.format("%7s", "[" + idEquipo + "] ") + "\u001B[0m\n";
         s += "\u001B[30;100m " + "Tecnico: " + String.format("%-79s", tecnico) + "\u001B[0m\n\n";
         s += "\u001B[30;100m " + String.format("%-88s", "Puesto | Num | Nombre (Edad)                            | Goles") + "\u001B[0m\n";
         for(int i = 0; i < jugadores.size(); i++) {
