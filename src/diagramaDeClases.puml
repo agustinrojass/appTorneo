@@ -18,10 +18,12 @@ interface IExportarJson {
 }
 class Torneo implements IExportarJson {
     - nombre : String
+    - temporada : int
     - fixture : Contenedor<Fecha>
     - tabla : Contenedor<Equipo>
     - goleadores : Contenedor<Jugador>
     + getNombre() : String
+    + getTemporada() : int
     + getFixture() : Contenedor<Fecha>
     + getTabla() : Contenedor<Equipo>
     + agregarEquipo(equipo : Equipo) : void
@@ -36,6 +38,7 @@ class Torneo implements IExportarJson {
 class Fecha {
     - numeroFecha : int
     - partidos : Contenedor<PartidoFutbol>
+    + getNumeroFecha() : int
     + getPartidos() : Contenedor<PartidoFutbol>
     + toString() : String
 }
@@ -77,6 +80,7 @@ class Equipo implements IExportarJson {
     + getDiferenciaGoles() : int
     + devolverEquipoCompleto(pos : int) : String
     + toString() : String
+    + exportarJson() : JSONObject
 }
 abstract class Persona {
     - nombre : String

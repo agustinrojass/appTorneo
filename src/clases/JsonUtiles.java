@@ -1,5 +1,5 @@
 //e322d3134e96e5ca6f13792f4df66ed5 jonas
-//d0745dc142c1ed133294934d257cb473 agus
+//d0745dc142c1ed133294934d257cb473 agustin
 //d1be930a252fbfb6c9f12ba5ec74de47 luca
 package clases;
 import excepciones.*;
@@ -26,7 +26,7 @@ public class JsonUtiles {
     } //pasa de string a jsonarray
     public static void grabar(JSONArray jsonArray, String archivo) throws IOException {
         try {
-            FileWriter file = new FileWriter("json\\" + archivo +".json");
+            FileWriter file = new FileWriter("json\\" + archivo + ".json");
             file.write(jsonArray.toString());
             file.flush();
             file.close();
@@ -86,11 +86,8 @@ public class JsonUtiles {
         catch(ConnectException ex) {
             throw new DescargaCanceladaException("Error de conexion. La tabla no ha sido actualizada.");
         }
-        catch(StatusCodeException | JsonErrorException | IOException ex) {
+        catch(StatusCodeException | JsonErrorException | DescargaCanceladaException | IOException ex) {
             throw new DescargaCanceladaException(ex.getMessage());
-        }
-        catch(DescargaCanceladaException ex) {
-            throw new DescargaCanceladaException(ex.getMotivo());
         }
         catch(JSONException ex) {
             throw new DescargaCanceladaException("Mal enrutamiento. Ver keys. Contacte al desarrollador del software.");
@@ -104,11 +101,8 @@ public class JsonUtiles {
         catch(ConnectException ex) {
             throw new DescargaCanceladaException("Error de conexion. Los jugadores del equipo con #id " + id + " no han sido actualizado.");
         }
-        catch(StatusCodeException | JsonErrorException | IOException ex) {
+        catch(StatusCodeException | JsonErrorException | DescargaCanceladaException | IOException ex) {
             throw new DescargaCanceladaException(ex.getMessage());
-        }
-        catch(DescargaCanceladaException ex) {
-            throw new DescargaCanceladaException(ex.getMotivo());
         }
     } //descarga los jugadores de un equipo de la api y los guarda en .json
     public static void grabarFixture(int liga, int temporada) throws DescargaCanceladaException {
@@ -119,11 +113,8 @@ public class JsonUtiles {
         catch(ConnectException ex) {
             throw new DescargaCanceladaException("Error de conexion. La tabla no ha sido actualizada.");
         }
-        catch(StatusCodeException | JsonErrorException | IOException ex) {
+        catch(StatusCodeException | JsonErrorException | DescargaCanceladaException | IOException ex) {
             throw new DescargaCanceladaException(ex.getMessage());
-        }
-        catch(DescargaCanceladaException ex) {
-            throw new DescargaCanceladaException(ex.getMotivo());
         }
     } //descarga el fixture de la api y los guarda en .json
     public static void grabarTecnicos(int id, int liga, int temporada) throws DescargaCanceladaException {
@@ -134,11 +125,8 @@ public class JsonUtiles {
         catch(ConnectException ex) {
             throw new DescargaCanceladaException("Error de conexion. La tabla no ha sido actualizada.");
         }
-        catch(StatusCodeException | JsonErrorException | IOException ex) {
+        catch(StatusCodeException | JsonErrorException | DescargaCanceladaException | IOException ex) {
             throw new DescargaCanceladaException(ex.getMessage());
-        }
-        catch(DescargaCanceladaException ex) {
-            throw new DescargaCanceladaException(ex.getMotivo());
         }
     } //descarga los tecnicos de un equipo de la api y los guarda en .json
     public static void grabarGoleadores(int liga, int temporada) throws DescargaCanceladaException {
@@ -149,11 +137,8 @@ public class JsonUtiles {
         catch(ConnectException ex) {
             throw new DescargaCanceladaException("Error de conexion. La tabla no ha sido actualizada.");
         }
-        catch(StatusCodeException | JsonErrorException | IOException ex) {
+        catch(StatusCodeException | JsonErrorException | DescargaCanceladaException | IOException ex) {
             throw new DescargaCanceladaException(ex.getMessage());
-        }
-        catch(DescargaCanceladaException ex) {
-            throw new DescargaCanceladaException(ex.getMotivo());
         }
     } //descarga los goleadores de la api y los guarda en .json
     public static Torneo jsonToTorneo(int liga, int temporada) throws JsonErrorException, DescargaCanceladaException {
@@ -195,7 +180,7 @@ public class JsonUtiles {
                         !jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).isNull("age")) {
                     Jugador ju = new Jugador(jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("name"), //nombre
                             jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getInt("age"), //edad
-                            jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("position"), //posicion
+                            jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getString("position"), //puesto
                             jaJugadores.getJSONObject(0).getJSONArray("players").getJSONObject(i).getInt("number")); //numero
                     jugadores.add(ju);
                 }
@@ -311,7 +296,8 @@ public class JsonUtiles {
             try {
                 assert objectOutputStream != null;
                 objectOutputStream.close();
-            } catch (IOException ex) {
+            }
+            catch(IOException ex) {
                 throw new ArchivoNoCerradoException();
             }
         }

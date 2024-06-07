@@ -3,12 +3,13 @@ public class CargaCanceladaException extends Exception{
     //Atributos
     private final String motivo;
     //Constructores
-    public CargaCanceladaException(String motivoaux) {
+    public CargaCanceladaException(String motivoAux) {
         super();
-        this.motivo = motivoaux;
+        this.motivo = motivoAux;
     }
     //Metodos
-    public String getMotivo() {
+    @Override
+    public String getMessage() {
         return motivo;
     }
 }
