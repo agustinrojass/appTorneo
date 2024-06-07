@@ -1,7 +1,7 @@
 package clases;
 public class Tecnico extends Persona {
     //Atributos
-    private Contenedor<String> trayectoria;
+    private final Contenedor<String> trayectoria;
     //Constructores
     public Tecnico(String nombreAux, int edadAux, Contenedor<String> trayectoriaAux) {
         super(nombreAux, edadAux);

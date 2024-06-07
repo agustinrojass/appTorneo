@@ -6,13 +6,15 @@ import org.json.JSONObject;
 import java.io.Serializable;
 public class Torneo implements Serializable, IExportarJson {
     //Atributos
-    private String nombre;
+    private final String nombre;
+    private final int temporada;
     private Contenedor<Fecha> fixture;
-    private Contenedor<Equipo> tabla;
+    private final Contenedor<Equipo> tabla;
     private Contenedor<Jugador> goleadores;
     //Constructores
-    public Torneo(String nombreAux) {
+    public Torneo(String nombreAux, int temporadaAux) {
         this.nombre = nombreAux;
+        this.temporada = temporadaAux;
         this.fixture = new Contenedor<>();
         this.tabla = new Contenedor<>();
         this.goleadores = new Contenedor<>();
@@ -20,6 +22,9 @@ public class Torneo implements Serializable, IExportarJson {
     //Metodos
     public String getNombre() {
         return nombre;
+    }
+    public int getTemporada() {
+        return temporada;
     }
     public Contenedor<Fecha> getFixture() {
         return fixture;
@@ -89,6 +94,7 @@ public class Torneo implements Serializable, IExportarJson {
         JSONObject joTorneo = new JSONObject();
         try {
             joTorneo.put("nombre",nombre); //nombre
+            joTorneo.put("temporada", temporada); //temporada
             JSONArray jaFixture = new JSONArray();
             for(int i = 0; i < fixture.size(); i++) {
                 JSONObject joFecha = new JSONObject();
@@ -109,6 +115,7 @@ public class Torneo implements Serializable, IExportarJson {
             JSONArray jaTabla = new JSONArray();
             for(int i = 0; i < tabla.size(); i++) {
                 JSONObject joEquipo = new JSONObject();
+                joEquipo.put("id", tabla.get(i).getIdEquipo()); //id del equipo
                 joEquipo.put("equipo", tabla.get(i).getNombre()); //equipo
                 joEquipo.put("puntos", tabla.get(i).getPuntos()); //puntos
                 JSONObject joTecnico = new JSONObject();

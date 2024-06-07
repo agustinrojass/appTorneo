@@ -2,8 +2,8 @@ package clases;
 import java.io.Serializable;
 public class Persona implements Serializable {
     //Atributos
-    private String nombre;
-    private int edad;
+    private final String nombre;
+    private final int edad;
     //Constructores
     public Persona(String nombreAux, int edadAux) {
         this.nombre = nombreAux;

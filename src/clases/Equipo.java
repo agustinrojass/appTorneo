@@ -1,9 +1,14 @@
 package clases;
+import interfaces.IExportarJson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
-public class Equipo implements Serializable {
+public class Equipo implements Serializable, IExportarJson {
     //Atributos
-    private int idEquipo;
-    private String nombre;
+    private final int idEquipo;
+    private final String nombre;
     private Tecnico tecnico;
     private Contenedor<Jugador> jugadores;
     private int puntos;
@@ -89,7 +94,7 @@ public class Equipo implements Serializable {
     public String toString() {
         String s = String.format("%-30s", nombre) + " | " + String.format("%3s", puntos) + " | " + String.format("%2s", partidosJugados) +
                 " | " + String.format("%2s", partidosGanados) + " | " + String.format("%2s", partidosEmpatados) + " | " + String.format("%2s", partidosPerdidos) +
-                " | " + String.format("%2s", golesAFavor) + " | " + String.format("%2s", golesEnContra) + " | ";
+                " | " + String.format("%2s", golesAFavor) + " |" + String.format("%3s", golesEnContra) + " | ";
         if(diferenciaGoles > 0) {
             s += String.format("%3s", "+" + diferenciaGoles);
         }
@@ -97,5 +102,44 @@ public class Equipo implements Serializable {
             s += String.format("%3s", diferenciaGoles);
         }
         return s;
+    }
+    @Override
+    public JSONObject exportarJson() {
+        JSONObject joEquipo = new JSONObject();
+        try {
+            joEquipo.put("id", idEquipo); //id del equipo
+            joEquipo.put("nombre",nombre); //nombre
+            joEquipo.put("puntos", puntos); //puntos
+            JSONObject joTecnico = new JSONObject();
+            joTecnico.put("nombre", tecnico.getNombre()); //nombre
+            joTecnico.put("edad", tecnico.getEdad()); //edad
+            JSONArray jaTrayectoria = new JSONArray();
+            for(int i = 0; i < tecnico.getTrayectoria().size(); i++) {
+                jaTrayectoria.put(tecnico.getTrayectoria().get(i)); //equipo
+            }
+            joTecnico.put("trayectoria", jaTrayectoria); //trayectoria
+            joEquipo.put("tecnico", joTecnico); //tecnico
+            JSONArray jaJugadores = new JSONArray();
+            for(int i = 0; i < jugadores.size(); i++) {
+                JSONObject joJugador = new JSONObject();
+                joJugador.put("nombre", jugadores.get(i).getNombre()); //nombre
+                joJugador.put("edad", jugadores.get(i).getEdad()); //edad
+                joJugador.put("puesto", jugadores.get(i).getPuesto()); //puesto
+                joJugador.put("numero", jugadores.get(i).getNumero()); //numero
+                joJugador.put("goles", jugadores.get(i).getGoles()); //goles
+                jaJugadores.put(joJugador); //jugador
+            }
+            joEquipo.put("jugadores", jaJugadores); //jugadores
+            joEquipo.put("partidosJugados", partidosJugados); //partidos jugados
+            joEquipo.put("partidosGanados", partidosGanados); //partidos ganados
+            joEquipo.put("partidosEmpatados", partidosEmpatados); //partidos empatados
+            joEquipo.put("partidosPerdidos", partidosPerdidos); //partidos perdidos
+            joEquipo.put("golesAFavor", golesAFavor); //goles a favor
+            joEquipo.put("golesEnContra", golesEnContra); //goles en contra
+            joEquipo.put("diferenciaGoles", diferenciaGoles); //diferencia de goles
+        } catch (JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+        return joEquipo;
     }
 }

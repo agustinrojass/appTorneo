@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 public class Contenedor<E> implements Serializable {
     //Atributos
-    private ArrayList<E> lista;
+    private final ArrayList<E> lista;
     //Constructores
     public Contenedor() {
         this.lista = new ArrayList<>();
